@@ -59,7 +59,7 @@ public class Login extends HttpServlet {
             ResultSet result = stat.executeQuery();
             if(result.next()) {
             	user_username = innerClass.getUsername();
-            	int type_id = result.getInt("type_id");
+            	int type_id = result.getInt("user_id");
             	if(checkUserType(type_id)) {
             		System.out.println("You are an Admin");
             		session = request.getSession();
@@ -67,7 +67,7 @@ public class Login extends HttpServlet {
             		session.setAttribute("tusr", "admin");
             		resp.setMessage("Login Successful");
                     resp.setStatus(200);
-                    resp.setRedirect("UploadFile.html");
+                    resp.setRedirect("UserLogged.html");
                     resp.setData(innerClass);
             	} else {
             		System.out.println("You are an User");
@@ -76,7 +76,7 @@ public class Login extends HttpServlet {
             		session.setAttribute("tusr", "user");
             		resp.setMessage("Login Successful");
                     resp.setStatus(404);
-                    resp.setRedirect("UploadFile.html");
+                    resp.setRedirect("UserLogged.html");
                     resp.setData(innerClass);
             	}
             } else {
