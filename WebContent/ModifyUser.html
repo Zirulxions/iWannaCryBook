@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="icon" href="Resources/MangaReader.ico">
+	<meta charset="utf-8">
+  	<title>Update User</title>
+  	<link rel="stylesheet" type="text/css" href="Materialize/css/materialize.min.css">
+  	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body  style="background:url(Resources/F1.PNG) no-repeat center center fixed; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;">
+	<div class="container">
+	   	<div class="col s12 m12">
+        	<div class="card-panel white">
+	        	<div class="card-content">
+	        		<h3 class="header">Upload Avatar</h3>
+	       			<span class="card-title activator white-text" style="font-size: 23px">Over Here</span>
+		          	<div class="file-field input-field">
+	           			<div class="btn">
+	              			<span>Select File</span>
+	              			<input type="file" id="file" accept="image/*">
+	           			</div>
+	           			<div class="file-path-wrapper">
+	              			<input class="file-path validate" type="text" placeholder="Select Image" accept="image/*">
+	           			</div>
+	          		</div>
+	            </div>
+	            <div class="card-action">
+	          		<button class="btn waves-effect waves-light col s5 push-s7" type="submit" name="action" id="changeAvatar">Upload New Avatar
+    					<i class="material-icons right">send</i></button>
+				</div>
+            </div>
+        </div>   
+		<div class="col s12 m7">
+	    	<div class="card horizontal">
+	      		<div class="card-stacked">
+	        		<div class="card-content">
+	        			<h3 class="header">Update Password</h3>
+	          			<div class="input-field col s6">
+          					<input id="oldPass" type="password" class="validate">
+          					<label for="oldPass" class="active">Current Password</label>
+        				</div>
+        				<div class="input-field col s6">
+          					<input id="newPass" type="password" class="validate">
+          					<label for="newPass" class="active">New Password</label>
+        				</div>
+	        		</div>
+	        		<div class="card-action">
+	          			<button class="btn waves-effect waves-light col s5 push-s7" type="submit" name="action" id="changePassword">Change Password
+    						<i class="material-icons right">send</i></button>
+	        		</div>
+	      		</div>
+	    	</div>
+		</div>
+		<div class="col s12 m7">
+	    	<div class="card horizontal">
+	      		<div class="card-stacked">
+	        		<div class="card-content">
+	        			<h3 class="header">Update Email</h3>
+	          			<div class="input-field col s6">
+          					<input id="oldEmail" type="text" class="validate">
+          					<label for="oldEmail" class="active">Last Email</label>
+        				</div>
+        				<div class="input-field col s6">
+          					<input id="newEmail" type="text" class="validate">
+          					<label for="newEmail" class="active">New Email</label>
+        				</div>
+	        		</div>
+	        		<div class="card-action">
+	          			<button class="btn waves-effect waves-light col s5 push-s7" type="submit" name="action" id="changeEmail">Change Email
+    						<i class="material-icons right">send</i></button>
+	        		</div>
+	      		</div>
+	    	</div>
+		</div>
+		<div class="col s12 m7">
+	    	<div class="card horizontal">
+	      		<div class="card-stacked">
+	        		<div class="card-content">
+	        			<h3 class="header">Update Name</h3>
+        				<div class="input-field col s6">
+          					<input id="newName" type="text" class="validate">
+          					<label for="newName" class="active">Name</label>
+        				</div>
+        				<div class="input-field col s6">
+          					<input id="newLName" type="text" class="validate">
+          					<label for="newLName" class="active">Last Name</label>
+        				</div>
+	        		</div>
+	        		<div class="card-action">
+	          			<button class="btn waves-effect waves-light col s5 push-s7" type="submit" name="action" id="changeName">Change Name
+    						<i class="material-icons right">send</i></button>
+	        		</div>
+	      		</div>
+	    	</div>
+		</div>
+		<div class="col s12 m7">
+	    	<div class="card horizontal">
+	      		<div class="card-stacked">
+	        		<div class="card-content">
+	        			<h3 class="header">Others</h3>
+	        			<div class="input-field col s12">
+	        				<select id="sex">
+      							<option value="male" selected>Male</option>
+      							<option value="female">Female</option>
+    						</select>
+    						<label>Gender</label>
+	        			</div>
+	        			<div class="input-field col s12">
+                    		<input type="text" id="birthdate" class="datepicker">
+                    	</div>
+                    </div>
+	        		<div class="card-action">
+	          			<button class="btn waves-effect waves-light col s5 push-s7" type="submit" name="action" id="changeOthers">Apply Changes
+    						<i class="material-icons right">send</i></button>
+	        		</div>
+	      		</div>
+	    	</div>
+		</div>
+	</div>
+  	<script src="Materialize/js/jquery-3.3.1.min.js"></script>
+ 	<script src="Materialize/js/materialize.min.js"></script>
+ 	<script type="text/javascript" src="Javascript/UpdateUserData.js"></script>
+ 	<script type="text/javascript">
+ 	document.addEventListener('DOMContentLoaded', function() {
+ 	    var elems = document.querySelectorAll('.datepicker');
+ 	    var instances = M.Datepicker.init(elems, {});
+ 		});
+
+ 	document.addEventListener('DOMContentLoaded', function() {
+ 	    var elems = document.querySelectorAll('select');
+ 	    var instances = M.FormSelect.init(elems, {});
+ 	});
+ 	</script>
+</body>
+</html>
