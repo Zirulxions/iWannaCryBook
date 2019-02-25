@@ -59,6 +59,7 @@ function doFetch(){
 			break;
 		default:
 			alert("Corrupted Data. Reload the Page Please.");
+			break;
 	}
 	let config = {
 			method: 'POST',
