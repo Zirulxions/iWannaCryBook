@@ -30,6 +30,7 @@ public class UpdateUserConfig extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Encrypt encPassword;
 	private DataBase conn = new DataBase();
+	PropertiesReader prop = new PropertiesReader();
 
     public UpdateUserConfig() {
         super();
@@ -43,6 +44,28 @@ public class UpdateUserConfig extends HttpServlet {
 		HttpSession session = request.getSession();
 		PrintWriter out = response.getWriter();
 		PreparedStatement stmt = null;
+		Integer option = Integer.parseInt(request.getParameter("option"));
+		switch(option) {
+			case 1:
+				System.out.println("Avatar Change");
+				break;
+			case 2:
+				System.out.println("Password Change");
+				
+				break;
+			case 3:
+				System.out.println("Email Change");
+				break;
+			case 4:
+				System.out.println("Name and LastName Change");
+				break;
+			case 5:
+				System.out.println("Sex and BirthDate Change");
+				break;
+			default:
+				System.out.println("Error Case");
+				break;
+		}
 		
 	}
 }

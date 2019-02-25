@@ -38,18 +38,22 @@ function doFetch(){
 			formData.append("file", $("file").files[0]);
 			break;
 		case 2:
+			formData.append("option", option);
 			formData.append("oldPass", $("oldPass").value);
 			formData.append("newPass", $("newPass").value);
 			break;
 		case 3:
+			formData.append("option", option);
 			formData.append("oldEmail", $("oldEmail").value);
 			formData.append("newEmail", $("newEmail").value);
 			break;
 		case 4:
+			formData.append("option", option);
 			formData.append("newName", $("newName").value);
 			formData.append("newLName", $("newLName").value);
 			break;
 		case 5:
+			formData.append("option", option);
 			formData.append("sex", $("sex").value);
 			formData.append("birthdate", $("birthdate").value);
 			break;
