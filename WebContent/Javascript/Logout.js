@@ -27,6 +27,9 @@ function getAvatar(){
 	.then(function(data){
 		if(data.message != null && data.url != 'unknown'){
 			document.getElementById("userAvatar").src = data.url;
+			if(document.getElementById('profileAvatar')){
+				document.getElementById("profileAvatar").src = data.url;
+			}
 		}
 	})
 }

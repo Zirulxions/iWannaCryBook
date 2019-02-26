@@ -69,8 +69,8 @@ function doFetch(){
 			console.log(data);
 			if(data.status == 200){
 				alert(data.message);
+				window.location.reload();
 			}
-			location.reload();
 		})
 }
 

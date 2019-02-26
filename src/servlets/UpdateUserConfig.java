@@ -55,7 +55,8 @@ public class UpdateUserConfig extends HttpServlet {
     
     private void getAvatar(Connection connection, HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
     	ObjectMapper objMapper = new ObjectMapper();
-    	AvatarResponse<?> resp = new AvatarResponse();
+    	@SuppressWarnings("rawtypes")
+		AvatarResponse<?> resp = new AvatarResponse();
     	HttpSession session = request.getSession();
     	PreparedStatement stat = null;
     	stat = connection.prepareStatement(prop.getValue("query_getAvatar"));
