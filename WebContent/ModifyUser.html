@@ -7,7 +7,21 @@
   	<link rel="stylesheet" type="text/css" href="Materialize/css/materialize.min.css">
   	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
-<body  style="background:url(Resources/F1.PNG) no-repeat center center fixed; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;">
+<body onload="getAvatar();" style="background:url(Resources/F1.PNG) no-repeat center center fixed; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;">
+	<nav class="teal darken-2 white-tex">
+    	<div class="nav-wrapper">
+    		<a class="brand-logo right">
+				 <img class="circle" id="userAvatar" src="Resources/huevito.jpg" style="width: 50px; height: 50px; margin-top: 7px;">
+			</a>
+      		<span id="name">Id. User</span>
+      		<ul id="nav-mobile" class="left">
+        		<li><a class="waves-effect waves-light btn" id="button2">Logout<i class="material-icons right">cloud</i></a></li>
+	    	</ul>
+	    	<ul id="nav-mobile" class="left">
+        		<li><a class="waves-effect waves-light btn" href="UserLogged.html">Cubanos Go Home<i class="material-icons right">cloud</i></a></li>
+	    	</ul>
+    	</div>
+	</nav>
 	<div class="container">
 	   	<div class="col s12 m12">
         	<div class="card-panel white">
@@ -93,33 +107,11 @@
 	      		</div>
 	    	</div>
 		</div>
-		<div class="col s12 m7">
-	    	<div class="card horizontal">
-	      		<div class="card-stacked">
-	        		<div class="card-content">
-	        			<h3 class="header">Others</h3>
-	        			<div class="input-field col s12">
-	        				<select id="sex">
-      							<option value="male" selected>Male</option>
-      							<option value="female">Female</option>
-    						</select>
-    						<label>Gender</label>
-	        			</div>
-	        			<div class="input-field col s12">
-                    		<input type="text" id="birthdate" class="datepicker">
-                    	</div>
-                    </div>
-	        		<div class="card-action">
-	          			<button class="btn waves-effect waves-light col s5 push-s7" type="submit" name="action" id="changeOthers">Apply Changes
-    						<i class="material-icons right">send</i></button>
-	        		</div>
-	      		</div>
-	    	</div>
-		</div>
 	</div>
   	<script src="Materialize/js/jquery-3.3.1.min.js"></script>
  	<script src="Materialize/js/materialize.min.js"></script>
  	<script type="text/javascript" src="Javascript/UpdateUserData.js"></script>
+ 	<script type="text/javascript" src="Javascript/Logout.js"></script>
  	<script type="text/javascript">
  	document.addEventListener('DOMContentLoaded', function() {
  	    var elems = document.querySelectorAll('.datepicker');

@@ -52,11 +52,6 @@ function doFetch(){
 			formData.append("newName", $("newName").value);
 			formData.append("newLName", $("newLName").value);
 			break;
-		case 5:
-			formData.append("option", option);
-			formData.append("sex", $("sex").value);
-			formData.append("birthdate", $("birthdate").value);
-			break;
 		default:
 			alert("Corrupted Data. Reload the Page Please.");
 			break;
@@ -83,4 +78,3 @@ $("changeAvatar").addEventListener("click", UpAvatar);
 $("changePassword").addEventListener("click", UpPassword);
 $("changeEmail").addEventListener("click", UpEmail);
 $("changeName").addEventListener("click", UpName);
-$("changeOthers").addEventListener("click", UpOthers);

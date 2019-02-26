@@ -48,8 +48,8 @@ public class Register extends HttpServlet {
 		String user_birthdate = rInnerClass.getBirthdate();
 		String user_sex = rInnerClass.getSex();
 		boolean boolsex = true;
-		//File newFolder = new File(prop.getValue("baseDir")+"/"+user_username);
-		File newFolder = new File("C:\\Users\\Javier Delgado\\Documents\\Workspace Eclipse\\iWannaCryBook\\WebContent\\Storage\\"+user_username);
+		File newFolder = new File(prop.getValue("dirAvatarDelete") + "/" + user_username);
+		File newAvatar = new File(prop.getValue("dirAvatarDelete") + "/" + user_username + "/Avatar");
 		try {
 			if(user_sex.trim() == "male") {
 				boolsex = true;
@@ -80,13 +80,15 @@ public class Register extends HttpServlet {
         	    boolean result = false;
         	    try{
         	        newFolder.mkdir();
+        	        newAvatar.mkdir();
         	        result = true;
         	    } 
         	    catch(SecurityException se){
         	        System.out.println("Error: " + se.getMessage());
         	    }        
         	    if(result) {    
-        	        System.out.println("Folder Created!");  
+        	        System.out.println("Folder Created!");
+        	        
         	    } else {
         	    	System.out.println("Folder Already Exists.");
         	    }
@@ -104,5 +106,7 @@ public class Register extends HttpServlet {
 		return new java.sql.Timestamp(today.getTime());
 	}
 }
+
+
 
 //Numero de la chama de los brazo gitanos: 0412-5800417 Soberanos: 20000
