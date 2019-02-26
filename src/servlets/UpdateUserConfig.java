@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,8 +20,6 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -32,6 +29,7 @@ import utility.AvatarResponse;
 import utility.DataBase;
 import utility.Encrypt;
 import utility.PropertiesReader;
+import utility.StandardResponse;
 
 @WebServlet("/UpdateUserConfig")
 @MultipartConfig
@@ -76,17 +74,20 @@ public class UpdateUserConfig extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			validateUserDataAndUpdate(conn.getConnection(), request, response);
-		} catch (SQLException | JSONException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
 	}
 
-	private void validateUserDataAndUpdate(Connection connection, HttpServletRequest request, HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException, SQLException, JSONException, ServletException {
+	private void validateUserDataAndUpdate(Connection connection, HttpServletRequest request, HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException, SQLException, ServletException {
+		ObjectMapper objMapper = new ObjectMapper();
+    	@SuppressWarnings("rawtypes")
+		StandardResponse<?> resp = new StandardResponse();
 		HttpSession session = request.getSession();
-		PrintWriter out = response.getWriter();
+		//PrintWriter out = response.getWriter();
 		PreparedStatement stmt = null;
-		JSONObject jsonRet = new JSONObject();
+		//JSONObject jsonRet = new JSONObject();
 		Integer option = Integer.parseInt(request.getParameter("option"));
 		switch(option) {
 			case 1:
@@ -114,8 +115,10 @@ public class UpdateUserConfig extends HttpServlet {
 					stat.setString(2, (String) session.getAttribute("usr"));
 					stat.executeUpdate();
 					stat.close();
-					jsonRet.put("status", 200).put("message", "Successful." );
-					out.print(jsonRet.toString());
+					resp.setStatus(200);
+		    		resp.setMessage("Operation Successful.");
+		    		System.out.println(objMapper.writerWithDefaultPrettyPrinter().writeValueAsString(objMapper.writeValueAsString(resp)));
+		        	response.getWriter().print(objMapper.writeValueAsString(resp));
 				}
 				break;
 			case 2:
@@ -137,8 +140,10 @@ public class UpdateUserConfig extends HttpServlet {
 					stmt.executeUpdate();
 					stmt.close();
 				}
-				jsonRet.put("status",200).put("message","Password Updated!");
-				out.print(jsonRet.toString());
+				resp.setStatus(200);
+	    		resp.setMessage("Operation Successful.");
+	        	System.out.println(objMapper.writerWithDefaultPrettyPrinter().writeValueAsString(objMapper.writeValueAsString(resp)));
+	        	response.getWriter().print(objMapper.writeValueAsString(resp));
 				break;
 			case 3:
 				System.out.println("Email Change");
@@ -150,8 +155,11 @@ public class UpdateUserConfig extends HttpServlet {
 				stmt.setString(3, newEmail);
 				stmt.executeUpdate();
 				stmt.close();
-				jsonRet.put("status",200).put("message", "Operation Successful. Your new Email is: " + newEmail);
-				out.println(jsonRet.toString());
+				resp.setStatus(200);
+	    		resp.setMessage("Operation Successful.");
+	    		String respo = objMapper.writeValueAsString(resp);
+	        	System.out.println(objMapper.writerWithDefaultPrettyPrinter().writeValueAsString(respo));
+	        	response.getWriter().print(respo);
 				break;
 			case 4:
 				System.out.println("Name and LastName Change");
@@ -164,14 +172,18 @@ public class UpdateUserConfig extends HttpServlet {
 					stmt.setString(3, (String) session.getAttribute("usr"));
 					stmt.executeUpdate();
 					stmt.close();
-					jsonRet.put("status", 200).put("message", "Done. Name: " + newName + " LastName: " + newLName + " has been updated!");
-					out.print(jsonRet.toString());
+					resp.setStatus(200);
+		    		resp.setMessage("Operation Successful.");
+		    		System.out.println(objMapper.writerWithDefaultPrettyPrinter().writeValueAsString(objMapper.writeValueAsString(resp)));
+		        	response.getWriter().print(objMapper.writeValueAsString(resp));
 				}
 				break;
 			default:
 				System.out.println("Error Case");
-				jsonRet.put("status", 404).put("message", "Forbiden. Reload the page please.");
-				out.print(jsonRet.toString());
+				resp.setStatus(404);
+	    		resp.setMessage("Forbiden. Reload The Page.");
+	    		System.out.println(objMapper.writerWithDefaultPrettyPrinter().writeValueAsString(objMapper.writeValueAsString(resp)));
+	        	response.getWriter().print(objMapper.writeValueAsString(resp));
 				break;
 		}
 	}

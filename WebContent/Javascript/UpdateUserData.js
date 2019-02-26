@@ -30,7 +30,6 @@ function UpOthers() {
 }
 
 function doFetch(){
-	alert("You Chosen: " + option);
 	var formData = new FormData();
 	switch(option){
 		case 1:
