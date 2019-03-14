@@ -62,9 +62,15 @@ public class UpdateUserConfig extends HttpServlet {
     	ResultSet res = stat.executeQuery();
     	if(res.next()) {
     		String avatarURL = res.getString("user_avatar");
+    		String username = (String) session.getAttribute("usr");
+    		String user_name = res.getString("user_name");
+    		String user_lastName = res.getString("user_lastname");
     		resp.setStatus(200);
     		resp.setMessage("Operation Successful.");
     		resp.setURL(avatarURL);
+    		resp.setUsername(username);
+    		resp.setName(user_name);
+    		resp.setLastName(user_lastName);
     	}
     	stat.close();
     	res.close();
