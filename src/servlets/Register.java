@@ -93,6 +93,8 @@ public class Register extends HttpServlet {
         	    	System.out.println("Folder Already Exists.");
         	    }
         	}
+        	stat.close();
+        	connection.close();
         	String res = objMapper.writeValueAsString(resp);
         	System.out.println(objMapper.writerWithDefaultPrettyPrinter().writeValueAsString(resp));
         	response.getWriter().print(res);

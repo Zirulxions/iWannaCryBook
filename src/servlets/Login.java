@@ -81,6 +81,7 @@ public class Login extends HttpServlet {
             	}
             	stat.close();
             	result.close();
+            	connection.close();
             } else {
             	resp.setMessage("Invalid Username or Password");
                 resp.setStatus(500);

@@ -43,7 +43,7 @@ public class UpdateUserConfig extends HttpServlet {
         super();
     }
     
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
     	try {
 			getAvatar(conn.getConnection(), request, response);
 		} catch (SQLException e) {
@@ -66,12 +66,15 @@ public class UpdateUserConfig extends HttpServlet {
     		resp.setMessage("Operation Successful.");
     		resp.setURL(avatarURL);
     	}
+    	stat.close();
+    	res.close();
+    	connection.close();
     	String respo = objMapper.writeValueAsString(resp);
     	System.out.println(objMapper.writerWithDefaultPrettyPrinter().writeValueAsString(respo));
     	response.getWriter().print(respo);
     }
     
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			validateUserDataAndUpdate(conn.getConnection(), request, response);
 		} catch (SQLException e) {
@@ -85,9 +88,7 @@ public class UpdateUserConfig extends HttpServlet {
     	@SuppressWarnings("rawtypes")
 		StandardResponse<?> resp = new StandardResponse();
 		HttpSession session = request.getSession();
-		//PrintWriter out = response.getWriter();
 		PreparedStatement stmt = null;
-		//JSONObject jsonRet = new JSONObject();
 		Integer option = Integer.parseInt(request.getParameter("option"));
 		switch(option) {
 			case 1:
@@ -115,6 +116,7 @@ public class UpdateUserConfig extends HttpServlet {
 					stat.setString(2, (String) session.getAttribute("usr"));
 					stat.executeUpdate();
 					stat.close();
+					connection.close();
 					resp.setStatus(200);
 		    		resp.setMessage("Operation Successful.");
 		    		System.out.println(objMapper.writerWithDefaultPrettyPrinter().writeValueAsString(objMapper.writeValueAsString(resp)));
@@ -139,6 +141,7 @@ public class UpdateUserConfig extends HttpServlet {
 					stmt.setString(2, (String) session.getAttribute("usr"));
 					stmt.executeUpdate();
 					stmt.close();
+					connection.close();
 				}
 				resp.setStatus(200);
 	    		resp.setMessage("Operation Successful.");
@@ -155,6 +158,7 @@ public class UpdateUserConfig extends HttpServlet {
 				stmt.setString(3, newEmail);
 				stmt.executeUpdate();
 				stmt.close();
+				connection.close();
 				resp.setStatus(200);
 	    		resp.setMessage("Operation Successful.");
 	    		String respo = objMapper.writeValueAsString(resp);
@@ -172,6 +176,7 @@ public class UpdateUserConfig extends HttpServlet {
 					stmt.setString(3, (String) session.getAttribute("usr"));
 					stmt.executeUpdate();
 					stmt.close();
+					connection.close();
 					resp.setStatus(200);
 		    		resp.setMessage("Operation Successful.");
 		    		System.out.println(objMapper.writerWithDefaultPrettyPrinter().writeValueAsString(objMapper.writeValueAsString(resp)));
@@ -180,7 +185,7 @@ public class UpdateUserConfig extends HttpServlet {
 				break;
 			default:
 				System.out.println("Error Case");
-				resp.setStatus(404);
+				resp.setStatus(500);
 	    		resp.setMessage("Forbiden. Reload The Page.");
 	    		System.out.println(objMapper.writerWithDefaultPrettyPrinter().writeValueAsString(objMapper.writeValueAsString(resp)));
 	        	response.getWriter().print(objMapper.writeValueAsString(resp));
