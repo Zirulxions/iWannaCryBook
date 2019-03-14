@@ -43,7 +43,7 @@ public class UpdateUserConfig extends HttpServlet {
         super();
     }
     
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
     	try {
 			getAvatar(conn.getConnection(), request, response);
 		} catch (SQLException e) {

@@ -24,20 +24,11 @@ public class Logout extends HttpServlet {
 		ObjectMapper objMapper = new ObjectMapper();
 		HttpSession session = request.getSession();
 		Response<?> resp = new Response<>();
-        //if(session.isNew()) {
         session.invalidate();
         System.out.println("Logged Out");
         resp.setMessage("Logout Successful");
         resp.setStatus(200);
-        resp.setRedirect("Login.html");
-        /*} else {
-        	session.invalidate();
-        	System.out.println("Logged Out");
-        	System.out.println("You are not Sigged In");
-        	resp.setMessage("Logout Successful");
-            resp.setStatus(200);
-            resp.setRedirect("Login.html");
-        }*/         	
+        resp.setRedirect("Login.html");   	
         String res = objMapper.writeValueAsString(resp);
         System.out.println(objMapper.writerWithDefaultPrettyPrinter().writeValueAsString(resp));
         response.getWriter().print(res);

@@ -1,10 +1,13 @@
 package utility;
 
-public class InnerClass {
+public class RegisterInnerClass {
 	private String username;
 	private String password;
 	private String name;
+	private String lastname;
 	private String email;
+	private String birthdate;
+	private String sex;
 	
 	public String getUsername() {
 		return username;
@@ -18,28 +21,20 @@ public class InnerClass {
 		return name;
 	}
 	
+	public String getLastname() {
+		return lastname;
+	}
+	
 	public String getEmail() {
 		return email;
 	}
 	
+	public String getBirthdate() {
+		return birthdate;
+	}
+	
+	public String getSex() {
+		return sex;
+	}
+	
 }
-
-//Setters Examples
-
-/*
-public void setName(String name) {
-	this.name = name;
-}
-
-public void setUsername(String username) {
-	this.username = username;
-}
-
-public void setPassword(String password) {
-	this.password = password;
-}
-
-public void setEmail(String email) {
-	this.email = email;
-}
-*/

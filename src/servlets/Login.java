@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import utility.InnerClass;
+import utility.LogInInnerClass;
 import utility.PropertiesReader;
 import utility.Response;
 import utility.DataBase;
@@ -47,8 +47,8 @@ public class Login extends HttpServlet {
 		HttpSession session;
 		PreparedStatement stat = null;
 		String loginQuery = prop.getValue("query_logIn");
-		InnerClass innerClass = objMapper.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), InnerClass.class);
-		Response<InnerClass> resp = new Response<>();
+		LogInInnerClass innerClass = objMapper.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), LogInInnerClass.class);
+		Response<LogInInnerClass> resp = new Response<>();
         try { 
         	String user_username = innerClass.getUsername();
             String user_password = innerClass.getPassword();
@@ -75,7 +75,7 @@ public class Login extends HttpServlet {
             		session.setAttribute("usr", user_username);
             		session.setAttribute("tusr", "user");
             		resp.setMessage("Login Successful");
-                    resp.setStatus(404);
+                    resp.setStatus(200);
                     resp.setRedirect("UserLogged.html");
                     resp.setData(innerClass);
             	}

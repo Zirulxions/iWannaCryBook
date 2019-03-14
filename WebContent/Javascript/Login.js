@@ -14,6 +14,9 @@ function logIn(){
            	})
            	.then(function(data){
                	console.log(data);
+               	if(data.status != undefined && data.status != null && data.status == 500){
+               		alert(data.message);
+               	}
                	if(data.redirect != null && data.redirect != undefined){
                		sessionStorage.setItem("name",body.username);
                 	window.location.href = data.redirect;

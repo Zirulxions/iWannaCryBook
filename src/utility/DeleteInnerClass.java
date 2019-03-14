@@ -1,6 +1,6 @@
 package utility;
 
-public class InnerDeleteClass {
+public class DeleteInnerClass {
 	private String username;
 	private String mangaDelete;
 	private Integer chapter;

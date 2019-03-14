@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import utility.Response;
-import utility.regInnerClass;
+import utility.RegisterInnerClass;
 import utility.DataBase;
 import utility.Encrypt;
 import utility.PropertiesReader;
@@ -37,9 +37,9 @@ public class Register extends HttpServlet {
 	
 	public void execRegister(Connection connection, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		ObjectMapper objMapper = new ObjectMapper();
-    	Response<regInnerClass> resp = new Response<>();
+    	Response<RegisterInnerClass> resp = new Response<>();
 		PropertiesReader prop = PropertiesReader.getInstance();
-		regInnerClass rInnerClass = objMapper.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), regInnerClass.class);
+		RegisterInnerClass rInnerClass = objMapper.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), RegisterInnerClass.class);
 		String user_username = rInnerClass.getUsername();
 		String user_password = rInnerClass.getPassword();
 		String user_name = rInnerClass.getName();
