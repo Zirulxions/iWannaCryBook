@@ -9,6 +9,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+/WebContent/Storage/*
 
 # External tool builders
 .externalToolBuilders/

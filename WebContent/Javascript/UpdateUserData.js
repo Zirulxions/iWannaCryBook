@@ -56,7 +56,7 @@ function doFetch(){
 			break;
 	}
 	let config = {
-			method: 'PUT',
+			method: 'POST',
 			body: formData,
 			header: {'Content-Type':'multipart/form-data'},
 		}

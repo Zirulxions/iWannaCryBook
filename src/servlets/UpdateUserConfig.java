@@ -80,7 +80,8 @@ public class UpdateUserConfig extends HttpServlet {
     	response.getWriter().print(respo);
     }
     
-	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    //doPut no lee parametros. y necesito leer parametros para poder realizar el update.
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			validateUserDataAndUpdate(conn.getConnection(), request, response);
 		} catch (SQLException e) {
