@@ -36,25 +36,104 @@
 		        		<br>
 					</div>
 				</div>
-			</div>
+			</div>			
 			<div class="col s8 m8">
-				<div class="card horizontal">
-					<div class="card-stacked">
-						<div class="card-content">
-							<div class="row">
-								<form class="col s12">
-									<div class="row">
-										<div class="input-field col s12">
-											<i class="material-icons prefix">mode_edit</i>
-											<textarea id="icon_prefix2" class="materialize-textarea"></textarea>
-											<label for="icon_prefix2">What Are You Thinking?</label>
+				<div class="card">
+	    			<div class="card-content">
+	      				<p>Choose what you want to upload</p>
+	    			</div>
+	    			<div class="card-tabs">
+	      				<ul class="tabs tabs-fixed-width">
+	        				<li class="tab"><a class="active" href="#UploadText">
+	        					<span class="teal-text flow-text" style="font-family: Trebuchet MS, Helvetica, sans-serif">Text</span>
+	        					</a>
+	        				</li>
+	        				<li class="tab"><a href="#UploadImage">
+	        					<span class="teal-text flow-text" style="font-family: Trebuchet MS, Helvetica, sans-serif">Image</span></a>
+	        				</li>
+	        				<li class="tab"><a href="#UploadVideo">
+	        					<span class="teal-text flow-text" style="font-family: Trebuchet MS, Helvetica, sans-serif">Video</span></a>
+	        				</li>
+	      				</ul>
+	    			</div>
+				    <div class="card-content teal darken-2">
+				    	<div id="UploadText">
+				      		<div class="card horizontal">
+								<div class="card-stacked">
+									<div class="card-content">
+										<div class="row">
+											<form class="col s12">
+												<div class="row">
+													<div class="input-field col s12">
+														<i class="material-icons prefix">mode_edit</i>
+														<textarea id="icon_prefix2" class="materialize-textarea"></textarea>
+														<label for="icon_prefix2">What Are You Thinking?</label>
+													</div>
+												</div>
+											</form>
 										</div>
 									</div>
-								</form>
+									<div class="card-action">
+										 <a class="btn-floating btn-medium waves-effect waves-light blue pulse"><i class="material-icons">send</i></a>
+									</div>
+								</div>
 							</div>
 						</div>
-						<div class="card-action">
-							 <a class="btn-floating btn-medium waves-effect waves-light blue"><i class="material-icons">send</i></a>
+						<div id="UploadImage">
+							<div class="card horizontal">
+								<div class="card-stacked">
+									<div class="card-content">
+										<div class="row">
+											<form class="col s12">
+												<div class="row">
+													<div class="input-field col s12">
+														<div class="file-field input-field">
+										           			<div class="btn">
+										              			<span>Click To Select Image</span>
+										              			<input type="file" id="file" accept="image/*">
+										           			</div>
+										           			<div class="file-path-wrapper">
+										              			<input class="file-path validate" type="text" placeholder="Image Name (auto)" accept="image/*">
+										           			</div>
+										          		</div>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+									<div class="card-action">
+										 <a class="btn-floating btn-medium waves-effect waves-light blue pulse"><i class="material-icons">send</i></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="UploadVideo">
+						<div class="card horizontal">
+								<div class="card-stacked">
+									<div class="card-content">
+										<div class="row">
+											<form class="col s12">
+												<div class="row">
+													<div class="input-field col s12">
+														<div class="file-field input-field">
+										           			<div class="btn">
+										              			<span>Click To Select a Video</span>
+										              			<input type="file" id="file" accept="video/mp4,video/x-m4v,video/*">
+										           			</div>
+										           			<div class="file-path-wrapper">
+										              			<input class="file-path validate" type="text" placeholder="Video Name (auto)" accept="image/*">
+										           			</div>
+										          		</div>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+									<div class="card-action">
+										 <a class="btn-floating btn-medium waves-effect waves-light blue pulse"><i class="material-icons">send</i></a>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -64,6 +143,7 @@
 	<script src="Materialize/js/jquery-3.3.1.min.js"></script>
     <script src="Materialize/js/materialize.min.js"></script>
 	<script type="text/javascript" src="Javascript/Logout.js"></script>
+	<script type="text/javascript" src="Javascript/Activator.js"></script>
 </body>
 </html>
  
