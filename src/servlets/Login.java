@@ -63,6 +63,7 @@ public class Login extends HttpServlet {
             	if(checkUserType(type_id)) {
             		System.out.println("You are an Admin");
             		session = request.getSession();
+            		session.setAttribute("usid", type_id);
             		session.setAttribute("usr", user_username);
             		session.setAttribute("tusr", "admin");
             		resp.setMessage("Login Successful");
@@ -72,6 +73,7 @@ public class Login extends HttpServlet {
             	} else {
             		System.out.println("You are an User");
             		session = request.getSession();
+            		session.setAttribute("usid", type_id);
             		session.setAttribute("usr", user_username);
             		session.setAttribute("tusr", "user");
             		resp.setMessage("Login Successful");
