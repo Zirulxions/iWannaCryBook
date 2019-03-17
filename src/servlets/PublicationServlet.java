@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import utility.StandardResponse;
 
 @WebServlet("/PublicationServlet")
+@MultipartConfig
 public class PublicationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
