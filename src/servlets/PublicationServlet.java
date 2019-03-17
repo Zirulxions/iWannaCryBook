@@ -1,5 +1,6 @@
 package servlets;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -39,16 +40,22 @@ public class PublicationServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		createNewPost(conn.getConnection(), request, response);
+		try {
+			createNewPost(conn.getConnection(), request, response);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void createNewPost(Connection connection, HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException, IOException, ServletException, SQLException {
+		boolean valid = false;
 		ObjectMapper objMapper = new ObjectMapper();
     	@SuppressWarnings("rawtypes")
 		StandardResponse<?> resp = new StandardResponse();
 		HttpSession session = request.getSession();
 		PreparedStatement stmt = null;
 		String user_username = (String) session.getAttribute("usr");
+		Integer user_id = (Integer) session.getAttribute("usid");
 		if(user_username.trim() != null) {
 			Integer option = Integer.parseInt(request.getParameter("option"));
 			switch(option) {
@@ -60,9 +67,23 @@ public class PublicationServlet extends HttpServlet {
 					Part file = request.getPart("upImageFile");
 					InputStream filecontent = file.getInputStream();
 					OutputStream output = null;
-					String query_getUserID = prop.getValue("query_getUserId");
-					stmt = connection.prepareStatement(prop.getValue("query_getUserId"));
-					stmt.setString(1, user_username);
+					String dirBase = (prop.getValue("dirAvatarLocal") + user_username + "\\" + this.getFileName(file));
+					String dirWeb = (prop.getValue("dirAvatarWeb") + user_username + "/" + this.getFileName(file));
+					stmt = connection.prepareStatement(prop.getValue("query_instertPost"));
+					stmt.setInt(1, user_id);
+					stmt.setInt(2, option);
+					stmt.setString(3, request.getParameter("upImageText"));
+					stmt.setString(4, dirWeb);
+					stmt.executeUpdate();
+					output = new FileOutputStream(dirBase);
+					int read = 0;
+					byte [] bytes = new byte[1024];
+					while((read = filecontent.read(bytes)) != -1) {
+						output.write(bytes, 0, read);
+					}
+					stmt.close();
+					connection.close();
+					valid = true;
 					break;
 				case 3:
 					
@@ -75,6 +96,15 @@ public class PublicationServlet extends HttpServlet {
 		        	response.getWriter().print(objMapper.writeValueAsString(resp));
 					break;
 			}
+			if(valid == true) {
+				resp.setStatus(200);
+				resp.setMessage("Operation Successful.");
+				response.getWriter().print(objMapper.writeValueAsString(resp));
+			} else if (valid == false) {
+				resp.setStatus(500);
+				resp.setMessage("Failed to Upload.");
+				response.getWriter().print(objMapper.writeValueAsString(resp));
+			}
 		} else {
 			System.out.println("User not Logged.");
 			resp.setStatus(500);
@@ -83,5 +113,14 @@ public class PublicationServlet extends HttpServlet {
         	response.getWriter().print(objMapper.writeValueAsString(resp));
 		}
 		
+	}
+	
+	private String getFileName(Part part) {
+		for (String content : part.getHeader("content-disposition").split(";")) {
+			if (content.trim().startsWith("filename")) {
+				return content.substring(content.indexOf('=') + 1).trim().replace("\"", "");
+			}
+		}
+		return null;
 	}
 }
