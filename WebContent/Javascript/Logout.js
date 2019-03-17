@@ -29,11 +29,11 @@ function getAvatar(){
 			document.getElementById("userAvatar").src = data.url;
 			if(document.getElementById('profileAvatar')){
 				document.getElementById("profileAvatar").src = data.url;
-				if(document.getElementById('profile_Username') && document.getElementById('profile_Name')){
-					document.getElementById("profile_Username").innerText = data.username;
-					document.getElementById("profile_Name").innerText = data.name + " " + data.lastName;
-				}
 			}
+		}
+		if(document.getElementById('profile_Username') && document.getElementById('profile_Name')){
+			document.getElementById("profile_Username").innerText = data.username;
+			document.getElementById("profile_Name").innerText = data.name + " " + data.lastName;
 		}
 	})
 }
