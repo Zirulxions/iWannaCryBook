@@ -47,6 +47,7 @@ public class PublicationServlet extends HttpServlet {
 		}
 	}
 
+	@SuppressWarnings("resource")
 	private void createNewPost(Connection connection, HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException, IOException, ServletException, SQLException {
 		boolean valid = false;
 		ObjectMapper objMapper = new ObjectMapper();
@@ -60,30 +61,49 @@ public class PublicationServlet extends HttpServlet {
 			Integer option = Integer.parseInt(request.getParameter("option"));
 			switch(option) {
 				case 1:
-					
+					try {
+						System.out.println("Create post with text oly.");
+						String upTextText = request.getParameter("upTextText");
+						stmt = connection.prepareStatement(prop.getValue("query_insertPost"));
+						stmt.setInt(1, (Integer) session.getAttribute("usid"));
+						stmt.setInt(2, option);
+						stmt.setString(3, upTextText);
+						stmt.setString(4, "unknown");
+						stmt.executeUpdate();
+						stmt.close();
+						connection.close();
+						valid = true;
+					} catch (SQLException e) {
+						System.out.println(e.getMessage());
+						valid = false;
+					}
 					break;
 				case 2:
-					System.out.println("Create post with image.");
-					Part file = request.getPart("upImageFile");
-					InputStream filecontent = file.getInputStream();
-					OutputStream output = null;
-					String dirBase = (prop.getValue("dirAvatarLocal") + user_username + "\\" + this.getFileName(file));
-					String dirWeb = (prop.getValue("dirAvatarWeb") + user_username + "/" + this.getFileName(file));
-					stmt = connection.prepareStatement(prop.getValue("query_instertPost"));
-					stmt.setInt(1, user_id);
-					stmt.setInt(2, option);
-					stmt.setString(3, request.getParameter("upImageText"));
-					stmt.setString(4, dirWeb);
-					stmt.executeUpdate();
-					output = new FileOutputStream(dirBase);
-					int read = 0;
-					byte [] bytes = new byte[1024];
-					while((read = filecontent.read(bytes)) != -1) {
-						output.write(bytes, 0, read);
+					try {
+						System.out.println("Create post with image.");
+						Part file = request.getPart("upImageFile");
+						InputStream filecontent = file.getInputStream();
+						OutputStream output = null;
+						String dirBase = (prop.getValue("dirAvatarLocal") + user_username + "\\" + this.getFileName(file));
+						String dirWeb = (prop.getValue("dirAvatarWeb") + user_username + "/" + this.getFileName(file));
+						stmt = connection.prepareStatement(prop.getValue("query_instertPost"));
+						stmt.setInt(1, user_id);
+						stmt.setInt(2, option);
+						stmt.setString(3, request.getParameter("upImageText"));
+						stmt.setString(4, dirWeb);
+						stmt.executeUpdate();
+						output = new FileOutputStream(dirBase);
+						int read = 0;
+						byte [] bytes = new byte[1024];
+						while((read = filecontent.read(bytes)) != -1) {
+							output.write(bytes, 0, read);
+						}
+						stmt.close();
+						connection.close();
+					} catch (SQLException e) {
+						System.out.println(e.getMessage());
+						valid = false;
 					}
-					stmt.close();
-					connection.close();
-					valid = true;
 					break;
 				case 3:
 					
@@ -98,7 +118,7 @@ public class PublicationServlet extends HttpServlet {
 			}
 			if(valid == true) {
 				resp.setStatus(200);
-				resp.setMessage("Operation Successful.");
+				resp.setMessage("Post Successfully Created.");
 				response.getWriter().print(objMapper.writeValueAsString(resp));
 			} else if (valid == false) {
 				resp.setStatus(500);
