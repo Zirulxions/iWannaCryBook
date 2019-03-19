@@ -40,15 +40,11 @@ public class PublicationServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
-			createNewPost(conn.getConnection(), request, response);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		createNewPost(conn.getConnection(), request, response);
 	}
 
 	@SuppressWarnings("resource")
-	private void createNewPost(Connection connection, HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException, IOException, ServletException, SQLException {
+	private void createNewPost(Connection connection, HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException, IOException, ServletException {
 		boolean valid = false;
 		ObjectMapper objMapper = new ObjectMapper();
     	@SuppressWarnings("rawtypes")
