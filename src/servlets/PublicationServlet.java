@@ -103,7 +103,32 @@ public class PublicationServlet extends HttpServlet {
 					}
 					break;
 				case 3:
-					
+					try {
+						System.out.println("Create post with video");
+						Part file = request.getPart("upVideoText");
+						InputStream filecontent = file.getInputStream();
+						OutputStream output = null;
+						String dirBase = (prop.getValue("dirAvatarLocal") + user_username + "\\" + this.getFileName(file));
+						String dirWeb = (prop.getValue("dirAvatarWeb") + user_username + "/" + this.getFileName(file));
+						stmt = connection.prepareStatement(prop.getValue("query_insertPost"));
+						stmt.setInt(1, user_id);
+						stmt.setInt(2, option);
+						stmt.setString(3, request.getParameter("upVideoText"));
+						stmt.setString(4, dirWeb);
+						stmt.executeUpdate();
+						output = new FileOutputStream(dirBase);
+						int read = 0;
+						byte [] bytes = new byte[1024];
+						while((read = filecontent.read(bytes)) != -1) {
+							output.write(bytes, 0, read);
+						}
+						stmt.close();
+						connection.close();
+						valid = true;
+					}catch (SQLException e) {
+						System.out.println(e.getMessage());
+						valid = false;
+					}
 					break;
 				default:
 					System.out.println("Error Case");
