@@ -54,6 +54,27 @@ public class PublicationServlet extends HttpServlet {
 				getPostsCount = result.getInt("count");
 			}
 			System.out.println("Posts Owned: " + getPostsCount);
+			String[] postText = new String[getPostsCount];
+			String[] postUrl = new String[getPostsCount];
+			String[] postUserId = new String[getPostsCount];
+			stmt = null;
+			result = null;
+			stmt = connection.prepareStatement(prop.getValue("query_getPost"));
+			stmt.setInt(1, (Integer) session.getAttribute("usid"));
+			result = stmt.executeQuery();
+			Integer i = 0;
+			while(result.next()) {
+				postText[i] = result.getString("post_text");
+				postUrl[i] = result.getString("post_url");
+				postUserId[i] = result.getString("user_id");
+				i++;
+				System.out.println("i: " + i);
+			}
+			for(int x = 0; x <= i; x++) {
+				System.out.println("Text: " + postText[x]);
+				System.out.println("URL: " + postUrl[x]);
+				System.out.println("User ID: " + postUserId[x]);
+			}
 			
 		} catch (SQLException e) {
 			System.out.println("Error: " + e.getMessage());
@@ -107,7 +128,11 @@ public class PublicationServlet extends HttpServlet {
 						stmt = connection.prepareStatement(prop.getValue("query_insertPost"));
 						stmt.setInt(1, user_id);
 						stmt.setInt(2, option);
-						stmt.setString(3, request.getParameter("upImageText"));
+						if(request.getParameter("upImageText").trim() != "") {
+							stmt.setString(3, request.getParameter("upImageText"));
+						} else {
+							stmt.setString(3, "unknown");
+						}
 						stmt.setString(4, dirWeb);
 						stmt.executeUpdate();
 						output = new FileOutputStream(dirBase);
