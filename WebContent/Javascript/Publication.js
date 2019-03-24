@@ -67,3 +67,7 @@ function doFetch(){
 $("button1").addEventListener("click", upText);
 $("button3").addEventListener("click", upImage);
 $("button4").addEventListener("click", upVideo);
+
+function getPublication() {
+	fetch("./PublicationServlet", {method: 'GET'})
+}

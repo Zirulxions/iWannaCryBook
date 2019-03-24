@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -36,6 +37,27 @@ public class PublicationServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		getPublications(conn.getConnection(), request, response);
+	}
+
+	private void getPublications(Connection connection, HttpServletRequest request, HttpServletResponse response) {
+		ObjectMapper objMapper = new ObjectMapper();
+		HttpSession session = request.getSession();
+		PreparedStatement stmt = null;
+		ResultSet result = null;
+		try {
+			stmt = connection.prepareStatement(prop.getValue("query_getPostCount"));
+			stmt.setInt(1, (Integer) session.getAttribute("usid"));
+			Integer getPostsCount = null;
+			result = stmt.executeQuery();
+			if(result.next()) {
+				getPostsCount = result.getInt("count");
+			}
+			System.out.println("Posts Owned: " + getPostsCount);
+			
+		} catch (SQLException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
 		
 	}
 
