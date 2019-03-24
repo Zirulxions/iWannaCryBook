@@ -58,7 +58,7 @@ public class PublicationServlet extends HttpServlet {
 			switch(option) {
 				case 1:
 					try {
-						System.out.println("Create post with text oly.");
+						System.out.println("Create post with text only.");
 						String upTextText = request.getParameter("upTextText");
 						stmt = connection.prepareStatement(prop.getValue("query_insertPost"));
 						stmt.setInt(1, (Integer) session.getAttribute("usid"));
