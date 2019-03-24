@@ -20,7 +20,7 @@ function upVideo(){
 }
 
 function doFetch(){
-	var formData = FormData();
+	var formData = new FormData();
 	switch(option){
 	case 1:
 		formData.append("option", option);
