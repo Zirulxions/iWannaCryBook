@@ -11,6 +11,7 @@ public class PropertiesReader {
 	
 	public PropertiesReader() {
 		try {
+			//input = new FileInputStream(new File("C:\\Users\\Raul Malagarriga\\Desktop\\New folder (3)\\iWannaCryBookFace\\iWannaCryBook\\config.properties"));
 			input = getClass().getClassLoader().getResourceAsStream("/utility/config.properties");
 			prop.load(input);
 		} catch (IOException ex) {
