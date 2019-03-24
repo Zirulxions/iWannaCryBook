@@ -11,6 +11,7 @@ function upText(){
 
 function upImage(){
 	option = 2;
+	alert("Im Here.");
 	doFetch();
 }
 
@@ -64,5 +65,5 @@ function doFetch(){
 }
 
 $("button1").addEventListener("click", upText);
-$("button2").addEventListener("click", upImage);
-$("button3").addEventListener("click", upVideo);
+$("button3").addEventListener("click", upImage);
+$("button4").addEventListener("click", upVideo);

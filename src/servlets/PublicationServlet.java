@@ -82,7 +82,7 @@ public class PublicationServlet extends HttpServlet {
 						OutputStream output = null;
 						String dirBase = (prop.getValue("dirAvatarLocal") + user_username + "\\" + this.getFileName(file));
 						String dirWeb = (prop.getValue("dirAvatarWeb") + user_username + "/" + this.getFileName(file));
-						stmt = connection.prepareStatement(prop.getValue("query_instertPost"));
+						stmt = connection.prepareStatement(prop.getValue("query_insertPost"));
 						stmt.setInt(1, user_id);
 						stmt.setInt(2, option);
 						stmt.setString(3, request.getParameter("upImageText"));
@@ -96,6 +96,7 @@ public class PublicationServlet extends HttpServlet {
 						}
 						stmt.close();
 						connection.close();
+						valid = true;
 					} catch (SQLException e) {
 						System.out.println(e.getMessage());
 						valid = false;
