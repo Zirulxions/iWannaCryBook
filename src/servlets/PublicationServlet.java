@@ -22,6 +22,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import utility.DataBase;
+import utility.PostResponse;
 import utility.PropertiesReader;
 import utility.StandardResponse;
 
@@ -40,11 +41,13 @@ public class PublicationServlet extends HttpServlet {
 		getPublications(conn.getConnection(), request, response);
 	}
 
-	private void getPublications(Connection connection, HttpServletRequest request, HttpServletResponse response) {
+	private void getPublications(Connection connection, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		ObjectMapper objMapper = new ObjectMapper();
 		HttpSession session = request.getSession();
 		PreparedStatement stmt = null;
 		ResultSet result = null;
+		@SuppressWarnings("rawtypes")
+		PostResponse<?> resp = new PostResponse();
 		try {
 			stmt = connection.prepareStatement(prop.getValue("query_getPostCount"));
 			stmt.setInt(1, (Integer) session.getAttribute("usid"));
@@ -56,7 +59,7 @@ public class PublicationServlet extends HttpServlet {
 			System.out.println("Posts Owned: " + getPostsCount);
 			String[] postText = new String[getPostsCount];
 			String[] postUrl = new String[getPostsCount];
-			String[] postUserId = new String[getPostsCount];
+			Integer[] postUserId = new Integer[getPostsCount];
 			stmt = null;
 			result = null;
 			stmt = connection.prepareStatement(prop.getValue("query_getPost"));
@@ -66,20 +69,33 @@ public class PublicationServlet extends HttpServlet {
 			while(result.next()) {
 				postText[i] = result.getString("post_text");
 				postUrl[i] = result.getString("post_url");
-				postUserId[i] = result.getString("user_id");
+				postUserId[i] = result.getInt("user_id");
 				i++;
 				System.out.println("i: " + i);
 			}
+			/*
 			for(int x = 0; x <= i; x++) {
 				System.out.println("Text: " + postText[x]);
 				System.out.println("URL: " + postUrl[x]);
 				System.out.println("User ID: " + postUserId[x]);
 			}
-			
+			*/
+			resp.setStatus(200);
+			resp.setMessage("Successfully loaded posts.");
+			resp.setPostText(postText);
+			resp.setPostUrl(postUrl);
+			resp.setPostUserId(postUserId);
+			String res = objMapper.writeValueAsString(resp);
+    		System.out.println(objMapper.writerWithDefaultPrettyPrinter().writeValueAsString(objMapper.writeValueAsString(res)));
+    		response.getWriter().print(res);
+			stmt.close();
+			result.close();
+			connection.close();
 		} catch (SQLException e) {
 			System.out.println("Error: " + e.getMessage());
+			resp.setStatus(500);
+			resp.setMessage("Error. Something is wrong, try reloading the page.");
 		}
-		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
