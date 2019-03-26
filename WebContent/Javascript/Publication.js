@@ -11,7 +11,6 @@ function upText(){
 
 function upImage(){
 	option = 2;
-	alert("Im Here.");
 	doFetch();
 }
 
