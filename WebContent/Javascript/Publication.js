@@ -69,4 +69,10 @@ $("button4").addEventListener("click", upVideo);
 
 function getPublication() {
 	fetch("./PublicationServlet", {method: 'GET'})
+	.then(function(response){
+		return response.json();
+	})
+	.then(function(data){
+		console.log(data);
+	})
 }
