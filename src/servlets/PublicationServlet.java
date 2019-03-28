@@ -80,6 +80,7 @@ public class PublicationServlet extends HttpServlet {
 				System.out.println("User ID: " + postUserId[x]);
 			}
 			*/
+			resp.setPostCounter(i);
 			resp.setStatus(200);
 			resp.setMessage("Successfully loaded posts.");
 			resp.setPostText(postText);

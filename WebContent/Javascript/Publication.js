@@ -75,5 +75,35 @@ function getPublication() {
 	})
 	.then(function(data){
 		console.log(data);
+		var item1, item2, item3, item4, item5;
+		for(var i = 0; i < data.postCounter; i++){
+			//Create elements.
+			item1 = document.createElement("div");
+			item1.setAttribute("class", "card");
+			//item1.setAttrubute("id", "divPostCard"+i);
+			document.getElementById("postView").appendChild(item1);
+			item2 = document.createElement("div");
+			item2.setAttribute("class", "card-stacked");
+			item1.appendChild(item2);
+			//item2.setAttribute("id", "divPostStack"+i);
+			//document.getElementById("divPostCard"+i).appendChild(item2);
+			item3 = document.createElement("div");
+			item3.setAttribute("class", "card-content");
+			item2.appendChild(item3);
+			//item3.setAttribute("id", "divPostContent"+i);
+			//document.getElementById("divPostStack"+i).appendChild(item3);
+			if(data.postUrl[i].trim() != 'unknown'){
+				item4 = document.createElement("img");
+				item4.setAttribute("class", "responsive-img");
+				item4.src = data.postUrl[i];
+				item3.appendChild(item4);
+				//document.getElementByid("divPostContent"+i).appendChild(item4);
+			}
+			item5 = document.createElement("h5");
+			item5.innerText = data.postText[i];
+			item3.appendChild(item5);
+			//document.getElementById("divPostContent"+i).appendChild(item5);
+			//Lets See What Happens...
+		}
 	})
 }

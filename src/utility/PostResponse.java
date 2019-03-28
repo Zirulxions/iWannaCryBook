@@ -6,6 +6,7 @@ public class PostResponse<T> {
 	private String[] postText;
 	private String[] postUrl;
 	private Integer[] postUserId;
+	private Integer postCounter;
 	
 	public void setPostText(String[] postText) {
 		this.postText = postText;
@@ -32,6 +33,14 @@ public class PostResponse<T> {
 	
 	public Integer[] getPostUserId() {
 		return postUserId;
+	}
+	
+	public void setPostCounter(Integer postCounter) {
+		this.postCounter = postCounter;
+	}
+	
+	public Integer getPostCounter() {
+		return postCounter;
 	}
 	
 	public void setMessage(String message) {
