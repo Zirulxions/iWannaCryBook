@@ -1,9 +1,25 @@
 package utility;
 
 public class FriendInnerClass {
-	private String userFriend;
-	private Integer userFriendId;
-
+	private String userFriend, myUser;
+	private Integer userFriendId, myId;
+	
+	public String getMyUser() {
+		return myUser;
+	}
+	
+	public void setMyUser(String myUser) {
+		this.myUser = myUser;
+	}
+	
+	public Integer getMyId() {
+		return myId;
+	}
+	
+	public void setMyId(Integer myId) {
+		this.myId = myId;
+	}
+	
 	public String getUserFriend() {
 		return userFriend;
 	}

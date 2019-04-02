@@ -44,6 +44,7 @@ public class Friends extends HttpServlet {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private void addFri3nd(Connection connection, HttpServletRequest request, HttpServletResponse response) throws SQLException, JsonParseException, JsonMappingException, IOException {
 		ObjectMapper objMapper = new ObjectMapper();
 		PropertiesReader prop = PropertiesReader.getInstance();
@@ -52,27 +53,47 @@ public class Friends extends HttpServlet {
 		HttpSession session = request.getSession();
 		PreparedStatement stmt = null;
 		ResultSet result = null;
-		//try {
-			String user_username = (String) session.getAttribute("usr");
-			Integer user_id = (Integer) session.getAttribute("usid");
+		boolean valid = true;
+		try {
 			System.out.println("Add Friend!");
-			/*
+			Integer user_id = (Integer) session.getAttribute("usid");
+			Integer user_idFriend = null;
 			stmt = connection.prepareStatement(prop.getValue("query_getUserId"));
 			stmt.setString(1, friendInnerClass.getUserFriend());
 			result = stmt.executeQuery();
-			int user_idFriend = result.getInt("user_id");
-			stmt = connection.prepareStatement(prop.getValue("query_insertFriend"));
-			stmt.setString(2, "usid");
-			stmt.setInt(3, user_idFriend);
+			if(result.next()) {
+				user_idFriend = result.getInt("user_id");
+				friendInnerClass.setUserFriendId(user_idFriend);
+				if(user_idFriend != null) {
+					stmt = null;
+					stmt = connection.prepareStatement(prop.getValue("query_insertFriend"));
+					stmt.setInt(1, user_id);
+					stmt.setInt(2, user_idFriend);
+					stmt.executeUpdate();
+					valid = true;
+				} else {
+					valid = false;
+				}
+			}
 			stmt.close();
 			result.close();
 			connection.close();
-			*/
-			
-			System.out.println("Name: " + friendInnerClass.getUserFriend());
-		//}catch(SQLException e) {
-		//	System.out.println(e.getMessage());
-		//}
+			if(valid = true) {
+				resp.setStatus(200);
+				resp.setMessage("Successfully Added!");
+				resp.setRedirect(null);
+				resp.setData(friendInnerClass);
+			} else {
+				resp.setStatus(500);
+				resp.setMessage("Something is not good");
+				resp.setRedirect(null);
+				resp.setData(null);
+			}
+			String res = objMapper.writeValueAsString(resp);
+			response.getWriter().print(res);
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
 		
 	}
 	
