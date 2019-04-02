@@ -2,6 +2,7 @@ function $(id) {
 	return document.getElementById(id);
 }
 function addFriend(){
+	alert("test");
 	let body = {
 		userFriend: $("addFriends").value,
 	};

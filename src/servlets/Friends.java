@@ -52,13 +52,13 @@ public class Friends extends HttpServlet {
 		HttpSession session = request.getSession();
 		PreparedStatement stmt = null;
 		ResultSet result = null;
-		try {
+		//try {
 			String user_username = (String) session.getAttribute("usr");
 			Integer user_id = (Integer) session.getAttribute("usid");
 			System.out.println("Add Friend!");
-			String addFriends = request.getParameter("addFriends");
+			/*
 			stmt = connection.prepareStatement(prop.getValue("query_getUserId"));
-			stmt.setString(1, addFriends);
+			stmt.setString(1, friendInnerClass.getUserFriend());
 			result = stmt.executeQuery();
 			int user_idFriend = result.getInt("user_id");
 			stmt = connection.prepareStatement(prop.getValue("query_insertFriend"));
@@ -67,9 +67,12 @@ public class Friends extends HttpServlet {
 			stmt.close();
 			result.close();
 			connection.close();
-		}catch(SQLException e) {
-			System.out.println(e.getMessage());
-		}
+			*/
+			
+			System.out.println("Name: " + friendInnerClass.getUserFriend());
+		//}catch(SQLException e) {
+		//	System.out.println(e.getMessage());
+		//}
 		
 	}
 	

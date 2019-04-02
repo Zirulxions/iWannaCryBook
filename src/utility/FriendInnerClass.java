@@ -14,5 +14,9 @@ public class FriendInnerClass {
 	
 	public Integer getUserFriendId() {
 		return userFriendId;
-	}	
+	}
+	
+	public void setUserFriendId(Integer userFriendId) {
+		this.userFriendId = userFriendId;
+	}
 }
