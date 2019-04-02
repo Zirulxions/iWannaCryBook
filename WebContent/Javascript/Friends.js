@@ -2,18 +2,14 @@ function $(id) {
 	return document.getElementById(id);
 }
 function addFriend(){
-	doFetch();
-	alert("hello");
-}
-function doFetch(){
-	var formData = new FormData();
-	formData.append("addFriends", $("addFriends").value);
+	let body = {
+		userFriend: $("addFriends").value,
+	};
 	let config = {
-			method: 'POST',
-			body: formData,
-			header: {'Content-Type':'multipart/form-data'},
-		}
-	fetch("./PublicationServlet", config)
+		method: 'POST',
+		body: JSON.stringify(body)
+	};
+	fetch("./Friends", config)
 	.then(function(response){
 		return response.json();
 	})
@@ -25,4 +21,5 @@ function doFetch(){
 		}
 	})
 }
+
 $("buttonFriends").addEventListener("click", addFriend);
