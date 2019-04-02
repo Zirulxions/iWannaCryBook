@@ -43,7 +43,7 @@ public class Friends extends HttpServlet {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 	@SuppressWarnings("unused")
 	private void addFri3nd(Connection connection, HttpServletRequest request, HttpServletResponse response) throws SQLException, JsonParseException, JsonMappingException, IOException {
 		ObjectMapper objMapper = new ObjectMapper();
@@ -53,7 +53,7 @@ public class Friends extends HttpServlet {
 		HttpSession session = request.getSession();
 		PreparedStatement stmt = null;
 		ResultSet result = null;
-		boolean valid = true;
+		boolean valid;
 		try {
 			System.out.println("Add Friend!");
 			Integer user_id = (Integer) session.getAttribute("usid");
@@ -93,6 +93,12 @@ public class Friends extends HttpServlet {
 			response.getWriter().print(res);
 		}catch(SQLException e) {
 			System.out.println(e.getMessage());
+			resp.setData(null);
+			resp.setRedirect(null);
+			resp.setStatus(400);
+			resp.setMessage("Server Error. Call an Admin");
+			String res = objMapper.writeValueAsString(resp);
+			response.getWriter().print(res);
 		}
 		
 	}
