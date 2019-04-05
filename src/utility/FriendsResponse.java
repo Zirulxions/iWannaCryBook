@@ -5,6 +5,7 @@ public class FriendsResponse<T> {
 	private Integer status;
 	private Integer[] friendsId;
 	private String[] friendsUserName;
+	private Integer friendCounter;
 	
 	public void setFriendsId(Integer[] friendsId) {
 		this.friendsId = friendsId;
@@ -36,5 +37,13 @@ public class FriendsResponse<T> {
 	
 	public Integer getStatus() {
 		return status;
+	}
+	
+	public void setFriendCounter(Integer friendCounter) {
+		this.friendCounter = friendCounter;
+	}
+	
+	public Integer getFriendCounter() {
+		return friendCounter;
 	}
 }

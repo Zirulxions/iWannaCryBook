@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -59,6 +58,7 @@ public class Friends extends HttpServlet {
 				counter = result.getInt("count");
 			}
 			if(counter > 0) {
+				resp.setFriendCounter(counter);
 				result = null;
 				stmt = null;
 				friendsId = new Integer[counter];
@@ -73,7 +73,8 @@ public class Friends extends HttpServlet {
 				}
 				stmt = null;
 				result = null;
-				for (Integer x = 0; x <= i; x++) {
+				System.out.println("Friend ID 1: " + friendsId[0]);
+				for (Integer x = 0; x < i; x++) {
 					stmt = connection.prepareStatement(prop.getValue("query_selectUsersById"));
 					stmt.setInt(1, friendsId[x]);
 					result = stmt.executeQuery();
@@ -95,6 +96,9 @@ public class Friends extends HttpServlet {
 				String res = objMapper.writeValueAsString(resp);
 				response.getWriter().print(res);
 			}
+			result.close();
+			stmt.close();
+			connection.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -128,7 +132,7 @@ public class Friends extends HttpServlet {
 			if(result.next()) {
 				user_idFriend = result.getInt("user_id");
 				friendInnerClass.setUserFriendId(user_idFriend);
-				if(user_idFriend != null) {
+				if(user_idFriend != null && user_idFriend > 0) {
 					stmt = null;
 					stmt = connection.prepareStatement(prop.getValue("query_insertFriend"));
 					stmt.setInt(1, user_id);
@@ -164,7 +168,5 @@ public class Friends extends HttpServlet {
 			String res = objMapper.writeValueAsString(resp);
 			response.getWriter().print(res);
 		}
-		
 	}
-	
 }

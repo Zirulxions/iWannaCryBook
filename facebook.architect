@@ -228,7 +228,7 @@
   <table id="TAB58" populated="true" UUID="b944c340-c542-4eb0-92ee-29e515b497fe" name="friends" objectType="TABLE" physicalName="friends" >
    <remarks></remarks>
    <folder id="FOLTAB581" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL59" populated="true" UUID="5f2c4a6b-9f89-450d-ab8c-59c3f16c379d" autoIncrement="false" autoIncrementSequenceName="friends_friends_id_seq" defaultValue="" name="friends_id" nullable="0" physicalName="friends_id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL59" populated="true" UUID="5f2c4a6b-9f89-450d-ab8c-59c3f16c379d" autoIncrement="true" autoIncrementSequenceName="friends_friends_id_seq" defaultValue="" name="friends_id" nullable="0" physicalName="friends_id" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL60" populated="true" UUID="07f91167-c497-4291-9cd3-3623bf0a7681" autoIncrement="false" autoIncrementSequenceName="users_New Column_seq" defaultValue="" name="user_id1" nullable="0" physicalName="user_id1" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
