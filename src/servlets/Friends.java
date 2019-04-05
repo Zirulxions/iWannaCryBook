@@ -15,11 +15,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import utility.DataBase;
 import utility.FriendInnerClass;
+import utility.FriendsResponse;
 import utility.PropertiesReader;
 import utility.Response;
 
@@ -34,6 +36,68 @@ public class Friends extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		getFriendList(conn.getConnection(),request,response);
+	}
+
+	private void getFriendList(Connection connection, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		ObjectMapper objMapper = new ObjectMapper();
+		PropertiesReader prop = PropertiesReader.getInstance();
+		@SuppressWarnings("rawtypes")
+		FriendsResponse<?> resp = new FriendsResponse();
+		HttpSession session = request.getSession();
+		PreparedStatement stmt = null;
+		ResultSet result = null;
+		Integer[] friendsId;
+		Integer counter = null;
+		String[] friendsUserName = null;
+		try {
+			System.out.println("Getting Friends...");
+			stmt = connection.prepareStatement(prop.getValue("query_selectFriendCount"));
+			stmt.setInt(1, (Integer) session.getAttribute("usid"));
+			result = stmt.executeQuery();
+			if(result.next()) {
+				counter = result.getInt("count");
+			}
+			if(counter > 0) {
+				result = null;
+				stmt = null;
+				friendsId = new Integer[counter];
+				friendsUserName = new String[counter];
+				stmt = connection.prepareStatement(prop.getValue("query_selectFriends"));
+				stmt.setInt(1, (Integer) session.getAttribute("usid"));
+				result = stmt.executeQuery();
+				Integer i = 0;
+				while (result.next()) {
+					friendsId[i] = result.getInt("user_id2");
+					i++;
+				}
+				stmt = null;
+				result = null;
+				for (Integer x = 0; x <= i; x++) {
+					stmt = connection.prepareStatement(prop.getValue("query_selectUsersById"));
+					stmt.setInt(1, friendsId[x]);
+					result = stmt.executeQuery();
+					if(result.next()) {
+						friendsUserName[x] = result.getString("user_username");
+					}
+				}
+				resp.setFriendsId(friendsId);
+				resp.setFriendsUserName(friendsUserName);
+				resp.setStatus(200);
+				resp.setMessage("Woah! You have Friends!!");
+				String res = objMapper.writeValueAsString(resp);
+				response.getWriter().print(res);
+			} else {
+				resp.setMessage("No friends... Noob");
+				resp.setStatus(200);
+				resp.setFriendsId(null);
+				resp.setFriendsUserName(null);
+				String res = objMapper.writeValueAsString(resp);
+				response.getWriter().print(res);
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
