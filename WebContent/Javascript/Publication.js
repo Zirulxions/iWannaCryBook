@@ -86,9 +86,14 @@ function getPublication() {
 			item3 = document.createElement("div");
 			item3.setAttribute("class", "card-content");
 			item2.appendChild(item3);
-			if(data.postUrl[i].trim() != 'unknown'){
+			if(data.postUrl[i].trim() != 'unknown' && data.postType[i] == 2){
 				item4 = document.createElement("img");
 				item4.setAttribute("class", "responsive-img");
+				item4.src = data.postUrl[i];
+				item3.appendChild(item4);
+			} else if (data.postUrl[i].trim() != 'unknown' && data.postType[i] == 3){
+				item4 = document.createElement("video");
+				item4.controls = true;
 				item4.src = data.postUrl[i];
 				item3.appendChild(item4);
 			}

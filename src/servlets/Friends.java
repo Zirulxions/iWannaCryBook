@@ -121,7 +121,7 @@ public class Friends extends HttpServlet {
 		HttpSession session = request.getSession();
 		PreparedStatement stmt = null;
 		ResultSet result = null;
-		boolean valid;
+		boolean valid = false;
 		try {
 			System.out.println("Add Friend!");
 			Integer user_id = (Integer) session.getAttribute("usid");
@@ -132,7 +132,7 @@ public class Friends extends HttpServlet {
 			if(result.next()) {
 				user_idFriend = result.getInt("user_id");
 				friendInnerClass.setUserFriendId(user_idFriend);
-				if(user_idFriend != null && user_idFriend > 0) {
+				if(user_idFriend != null && user_idFriend > 0) { // Usar camel case
 					stmt = null;
 					stmt = connection.prepareStatement(prop.getValue("query_insertFriend"));
 					stmt.setInt(1, user_id);
@@ -142,11 +142,11 @@ public class Friends extends HttpServlet {
 				} else {
 					valid = false;
 				}
-			}
+			} // else para result.next()
 			stmt.close();
 			result.close();
 			connection.close();
-			if(valid = true) {
+			if(valid) {
 				resp.setStatus(200);
 				resp.setMessage("Successfully Added!");
 				resp.setRedirect(null);

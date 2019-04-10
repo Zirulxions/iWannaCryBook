@@ -6,13 +6,22 @@ public class PostResponse<T> {
 	private String[] postText;
 	private String[] postUrl;
 	private Integer[] postUserId;
+	private Integer[] postType;
 	private Integer postCounter;
+	
+	public void setPostType(Integer[] postType) {
+		this.postType = postType;
+	}
+	
+	public Integer[] getPostType() {
+		return postType;
+	}
 	
 	public void setPostText(String[] postText) {
 		this.postText = postText;
-		for(int i = 1; i <= this.postText.length; i++) {
-			System.out.println("Values: " + this.postText[i-1]);
-		}
+		//for(int i = 1; i <= this.postText.length; i++) {
+		//	System.out.println("Values: " + this.postText[i-1]);
+		//}
 	}
 	
 	public String[] getPostText() {

@@ -60,6 +60,7 @@ public class PublicationServlet extends HttpServlet {
 			String[] postText = new String[getPostsCount];
 			String[] postUrl = new String[getPostsCount];
 			Integer[] postUserId = new Integer[getPostsCount];
+			Integer[] postType = new Integer[getPostsCount];
 			stmt = null;
 			result = null;
 			stmt = connection.prepareStatement(prop.getValue("query_getPost"));
@@ -70,22 +71,16 @@ public class PublicationServlet extends HttpServlet {
 				postText[i] = result.getString("post_text");
 				postUrl[i] = result.getString("post_url");
 				postUserId[i] = result.getInt("user_id");
+				postType[i] = result.getInt("type_post_id");
 				i++;
-				System.out.println("i: " + i);
 			}
-			/*
-			for(int x = 0; x <= i; x++) {
-				System.out.println("Text: " + postText[x]);
-				System.out.println("URL: " + postUrl[x]);
-				System.out.println("User ID: " + postUserId[x]);
-			}
-			*/
 			resp.setPostCounter(i);
 			resp.setStatus(200);
-			resp.setMessage("Successfully loaded posts.");
+			resp.setMessage("Successfully loaded owned posts.");
 			resp.setPostText(postText);
 			resp.setPostUrl(postUrl);
 			resp.setPostUserId(postUserId);
+			resp.setPostType(postType);
 			String res = objMapper.writeValueAsString(resp);
     		System.out.println(objMapper.writerWithDefaultPrettyPrinter().writeValueAsString(objMapper.writeValueAsString(res)));
     		response.getWriter().print(res);
@@ -169,7 +164,7 @@ public class PublicationServlet extends HttpServlet {
 				case 3:
 					try {
 						System.out.println("Create post with video");
-						Part file = request.getPart("upVideoText");
+						Part file = request.getPart("upVideoFile");
 						InputStream filecontent = file.getInputStream();
 						OutputStream output = null;
 						String dirBase = (prop.getValue("dirAvatarLocal") + user_username + "\\" + this.getFileName(file));
@@ -182,7 +177,7 @@ public class PublicationServlet extends HttpServlet {
 						stmt.executeUpdate();
 						output = new FileOutputStream(dirBase);
 						int read = 0;
-						byte [] bytes = new byte[1024];
+						byte [] bytes = new byte[2048];
 						while((read = filecontent.read(bytes)) != -1) {
 							output.write(bytes, 0, read);
 						}
