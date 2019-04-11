@@ -112,7 +112,6 @@ public class Friends extends HttpServlet {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	private void addFri3nd(Connection connection, HttpServletRequest request, HttpServletResponse response) throws SQLException, JsonParseException, JsonMappingException, IOException {
 		ObjectMapper objMapper = new ObjectMapper();
 		PropertiesReader prop = PropertiesReader.getInstance();
