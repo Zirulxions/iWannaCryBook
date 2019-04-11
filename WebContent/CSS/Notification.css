@@ -1,0 +1,9 @@
+.rowEdit{
+	position:relative;
+	z-index:1;
+}
+
+.divNotifications{
+	position:relative;
+	z-index:2;
+}
