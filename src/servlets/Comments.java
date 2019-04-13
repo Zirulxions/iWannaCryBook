@@ -33,6 +33,12 @@ public class Comments extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		getComment(conn.getConnection(), request, response);
+	}
+
+	private void getComment(Connection connection, HttpServletRequest request, HttpServletResponse response) {
+		ObjectMapper objMapper = new ObjectMapper();
+		PropertiesReader prop = PropertiesReader.getInstance();
 		
 	}
 

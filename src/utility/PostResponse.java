@@ -3,11 +3,20 @@ package utility;
 public class PostResponse<T> {
 	private String message;
 	private Integer status;
+	private Integer[] postId;
 	private String[] postText;
 	private String[] postUrl;
 	private Integer[] postUserId;
 	private Integer[] postType;
 	private Integer postCounter;
+	
+	public void setPostId(Integer[] postId) {
+		this.postId = postId;
+	}
+	
+	public Integer[] getPostId() {
+		return postId;
+	}
 	
 	public void setPostType(Integer[] postType) {
 		this.postType = postType;

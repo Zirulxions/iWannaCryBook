@@ -61,6 +61,7 @@ public class PublicationServlet extends HttpServlet {
 			String[] postUrl = new String[getPostsCount];
 			Integer[] postUserId = new Integer[getPostsCount];
 			Integer[] postType = new Integer[getPostsCount];
+			Integer[] postId = new Integer[getPostsCount];
 			stmt = null;
 			result = null;
 			stmt = connection.prepareStatement(prop.getValue("query_getPost"));
@@ -68,6 +69,7 @@ public class PublicationServlet extends HttpServlet {
 			result = stmt.executeQuery();
 			Integer i = 0;
 			while(result.next()) {
+				postId[i] = result.getInt("post_id");
 				postText[i] = result.getString("post_text");
 				postUrl[i] = result.getString("post_url");
 				postUserId[i] = result.getInt("user_id");
@@ -77,6 +79,7 @@ public class PublicationServlet extends HttpServlet {
 			resp.setPostCounter(i);
 			resp.setStatus(200);
 			resp.setMessage("Successfully loaded owned posts.");
+			resp.setPostId(postId);
 			resp.setPostText(postText);
 			resp.setPostUrl(postUrl);
 			resp.setPostUserId(postUserId);

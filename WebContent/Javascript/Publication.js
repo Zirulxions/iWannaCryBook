@@ -2,7 +2,7 @@ function $(id) {
 	return document.getElementById(id);
 }
 
-var option;
+var option, commentDefiner;
 
 function upText(){
 	option = 1;
@@ -74,7 +74,7 @@ function getPublication() {
 	})
 	.then(function(data){
 		console.log(data);
-		var item1, item2, item3, item4, item5, item6, item7, item8;
+		var item1, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11;
 		for(var i = 0; i < data.postCounter; i++){
 			//Create elements.
 			item1 = document.createElement("div");
@@ -107,16 +107,37 @@ function getPublication() {
 			item3.appendChild(document.createElement("br"));
 			item3.appendChild(document.createElement("br"));
 			item7 = document.createElement("input");
-			item7.setAttribute("id", "comment"+i);
+			item7.setAttribute("id", "comment"+data.postId[i]);
 			item7.setAttribute("class", "validate");
 			item7.setAttribute("type", "text");
 			item6.appendChild(item7);
 			item8 = document.createElement("label");
-			item8.setAttribute("for", "comment");
-			item8.setAttribute("class", "active");
+			item8.setAttribute("for", "comment"+data.postId[i]);
+			item8.setAttribute("class", "");
 			item8.innerText = "Comment Here!";
 			item6.appendChild(item8);
+			item9 = document.createElement("div");
+			item9.setAttribute("class", "card-action");
+			item2.appendChild(item9);
+			item10 = document.createElement("button");
+			item10.setAttribute("onclick", "commentDefiner = " + data.postId[i] + "; doComment();");
+			item10.setAttribute("class", "btn waves-effect waves-light");
+			item10.setAttribute("id", "actionButton" + data.postId[i]);
+			item10.innerHTML = "Comment!";
+			item9.appendChild(item10);
+			item11 = document.createElement("i");
+			item11.setAttribute("class", "material-icons right");
+			item11.innerHTML = "send";
+			item10.appendChild(item11);
 			//Lets See What Happens...
 		}
 	})
+}
+
+function doComment(){
+	var buttonIdentity = "actionButton" + commentDefiner;
+	var commentIdentity = "comment" + commentDefiner;
+	console.log("testing buttons... You clicked button: " + buttonIdentity + " to get comment: " + commentIdentity);
+	console.log($(commentIdentity).value);
+	//let see if it works
 }
