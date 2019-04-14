@@ -14,10 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import utility.CommentInnerClass;
+import utility.CommentResponse;
 import utility.DataBase;
 import utility.PropertiesReader;
 import utility.Response;
@@ -36,10 +38,18 @@ public class Comments extends HttpServlet {
 		getComment(conn.getConnection(), request, response);
 	}
 
-	private void getComment(Connection connection, HttpServletRequest request, HttpServletResponse response) {
+	private void getComment(Connection connection, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		ObjectMapper objMapper = new ObjectMapper();
 		PropertiesReader prop = PropertiesReader.getInstance();
+		@SuppressWarnings("rawtypes")
+		CommentResponse<?> resp = new CommentResponse();
 		
+		System.out.println("Array: " + request.getParameterValues("array"));
+		
+		resp.setMessage("Operation Successfull!");
+		resp.setStatus(200);
+		String res = objMapper.writeValueAsString(resp);
+		response.getWriter().print(res);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
