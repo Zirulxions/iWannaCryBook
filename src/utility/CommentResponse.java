@@ -1,10 +1,28 @@
 package utility;
 
-public class CommentResponse {
+public class CommentResponse<T> {
+	private String message;
+	private Integer status;
 	private String commentText;
 	private String commentUrl;
 	private Integer postId;
 	private Integer userId;
+	
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 	
 	public void setCommentText(String commentText) {
 		this.commentText = commentText;

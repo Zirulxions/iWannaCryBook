@@ -200,14 +200,15 @@ function doComment(){
 
 function getComment(){
 	console.log(postsIdentity + " Has Length: " + postsIdentity.length);
-	/*
+	
 	var body = {
 			postsIdentity: JSON.stringify(postsIdentity),
 	};
 	//console.log("OMAIGA: " + JSON.stringify(body));
 	var config = {
-		method: 'POST',
-		body: JSON.stringify(body)
+		method: 'GET',
+		//body: JSON.stringify(body),
+		array: JSON.stringify(body)
 	};
 	fetch("./Comments", config)
 		.then(function(response){
@@ -217,7 +218,7 @@ function getComment(){
 			console.log(data);
 			//more appendChild
 		})
-		*/
+		
 }
 
 function doLike(){
