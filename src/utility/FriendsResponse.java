@@ -7,6 +7,8 @@ public class FriendsResponse<T> {
 	private String[] friendsUserName;
 	private Integer friendCounter;
 	
+	// Setters and Getters.
+	
 	public void setFriendsId(Integer[] friendsId) {
 		this.friendsId = friendsId;
 	}
@@ -46,4 +48,5 @@ public class FriendsResponse<T> {
 	public Integer getFriendCounter() {
 		return friendCounter;
 	}
+	
 }
