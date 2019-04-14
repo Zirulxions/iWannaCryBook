@@ -3,6 +3,7 @@ function $(id) {
 }
 
 var option, commentDefiner;
+var postsIdentity = [];
 
 function upText(){
 	option = 1;
@@ -132,7 +133,9 @@ function getPublication() {
 			item11.innerHTML = "send";
 			item10.appendChild(item11);
 			//Lets See What Happens...
+			postsIdentity.push(data.postId[i]);
 		}
+		getComment();
 	})
 }
 
@@ -169,4 +172,24 @@ function doComment(){
 	//console.log($(commentIdentity).value);
 	
 	//let see if it works
+}
+
+function getComment(){
+	console.log(postsIdentity + " Has Length: " + postsIdentity.length);
+	var body = {
+			postsIdentity: JSON.stringify(postsIdentity),
+	};
+	//console.log("OMAIGA: " + JSON.stringify(body));
+	var config = {
+		method: 'POST',
+		body: JSON.stringify(body)
+	};
+	fetch("./Comments", config)
+		.then(function(response){
+			return response.json();
+		})
+		.then(function(data){
+			console.log(data);
+			//more appendChild
+		})
 }
