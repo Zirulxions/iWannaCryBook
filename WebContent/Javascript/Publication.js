@@ -226,10 +226,11 @@ function doLike(){
 		postId: likeDefiner,
 		typeLike: typeLike
 	};
+	console.log(body);
 	let config = {
 		method: 'POST',
 		body: JSON.stringify(body),
-	}
+	};
 	fetch(("./Likes"), config)
 	.then(function(response){
 		return response.json();
@@ -237,5 +238,4 @@ function doLike(){
 	.then(function(data){
 		console.log(data);
 	})
-	
 }
