@@ -2,7 +2,7 @@ function $(id) {
 	return document.getElementById(id);
 }
 
-var option, commentDefiner;
+var option, commentDefiner, likeDefiner, typeLike;
 var postsIdentity = [];
 var item1, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11, like, dislike,likeIcon,dislikeIcon;
 var m , n; // likes
@@ -136,7 +136,7 @@ function getPublication() {
 			item10.appendChild(item11);
 			//button like
 			like = document.createElement("button");
-			like.setAttribute("onclick", "Flikeopc();");
+			like.setAttribute("onclick", "typeLike = 1; likeDefiner = " + data.postId[i] + "; doLike();");
 			like.setAttribute("class", "btn-floating btn-medium waves-effect waves-light light-blue darken-4");
 			like.setAttribute("id","buttonlike" + data.postId[i]);
 			item9.appendChild(like);
@@ -147,7 +147,7 @@ function getPublication() {
 			like.appendChild(likeIcon);
 			//button dislike
 			dislike = document.createElement("button");
-			dislike.setAttribute("onclick", "Fdislikeopc();");
+			dislike.setAttribute("onclick", "typeLike = 2; likeDefiner = " + data.postId[i] + "; doLike();");
 			dislike.setAttribute("class", "btn-floating btn-medium waves-effect waves-light red darken-4");
 			dislike.setAttribute("id","buttondislike" + data.postId[i]);
 			item9.appendChild(dislike);
@@ -220,12 +220,22 @@ function getComment(){
 		*/
 }
 
-function Flikeopc(){
-	m = 1;
-	return m;
-}
-
-function Fdislikeopc(){
-	n = 2;
-	return n;
+function doLike(){
+	var likeButtonIdentity = "buttonlike" + likeDefiner;
+	let body = {
+		postId: likeDefiner,
+		typeLike: typeLike
+	};
+	let config = {
+		method: 'POST',
+		body: JSON.stringify(body),
+	}
+	fetch(("./Likes"), config)
+	.then(function(response){
+		return response.json();
+	})
+	.then(function(data){
+		console.log(data);
+	})
+	
 }
