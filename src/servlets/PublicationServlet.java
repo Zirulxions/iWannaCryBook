@@ -49,7 +49,7 @@ public class PublicationServlet extends HttpServlet {
 		@SuppressWarnings("rawtypes")
 		PostResponse<?> resp = new PostResponse();
 		try {
-			stmt = connection.prepareStatement(prop.getValue("query_getPostCount"));
+			stmt = connection.prepareStatement(prop.getValue("getPostCount"));
 			stmt.setInt(1, (Integer) session.getAttribute("usid"));
 			Integer getPostsCount = null;
 			result = stmt.executeQuery();
@@ -64,7 +64,7 @@ public class PublicationServlet extends HttpServlet {
 			Integer[] postId = new Integer[getPostsCount];
 			stmt = null;
 			result = null;
-			stmt = connection.prepareStatement(prop.getValue("query_getPost"));
+			stmt = connection.prepareStatement(prop.getValue("getPost"));
 			stmt.setInt(1, (Integer) session.getAttribute("usid"));
 			result = stmt.executeQuery();
 			Integer i = 0;
@@ -118,7 +118,7 @@ public class PublicationServlet extends HttpServlet {
 					try {
 						System.out.println("Create post with text only.");
 						String upTextText = request.getParameter("upTextText");
-						stmt = connection.prepareStatement(prop.getValue("query_insertPost"));
+						stmt = connection.prepareStatement(prop.getValue("insertPost"));
 						stmt.setInt(1, (Integer) session.getAttribute("usid"));
 						stmt.setInt(2, option);
 						stmt.setString(3, upTextText);
@@ -140,7 +140,7 @@ public class PublicationServlet extends HttpServlet {
 						OutputStream output = null;
 						String dirBase = (prop.getValue("dirAvatarLocal") + user_username + "\\" + this.getFileName(file));
 						String dirWeb = (prop.getValue("dirAvatarWeb") + user_username + "/" + this.getFileName(file));
-						stmt = connection.prepareStatement(prop.getValue("query_insertPost"));
+						stmt = connection.prepareStatement(prop.getValue("insertPost"));
 						stmt.setInt(1, user_id);
 						stmt.setInt(2, option);
 						if(request.getParameter("upImageText").trim() != "") {
@@ -172,7 +172,7 @@ public class PublicationServlet extends HttpServlet {
 						OutputStream output = null;
 						String dirBase = (prop.getValue("dirAvatarLocal") + user_username + "\\" + this.getFileName(file));
 						String dirWeb = (prop.getValue("dirAvatarWeb") + user_username + "/" + this.getFileName(file));
-						stmt = connection.prepareStatement(prop.getValue("query_insertPost"));
+						stmt = connection.prepareStatement(prop.getValue("insertPost"));
 						stmt.setInt(1, user_id);
 						stmt.setInt(2, option);
 						stmt.setString(3, request.getParameter("upVideoText"));

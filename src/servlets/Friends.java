@@ -51,7 +51,7 @@ public class Friends extends HttpServlet {
 		String[] friendsUserName = null;
 		try {
 			System.out.println("Getting Friends...");
-			stmt = connection.prepareStatement(prop.getValue("query_selectFriendCount"));
+			stmt = connection.prepareStatement(prop.getValue("selectFriendCount"));
 			stmt.setInt(1, (Integer) session.getAttribute("usid"));
 			result = stmt.executeQuery();
 			if(result.next()) {
@@ -63,7 +63,7 @@ public class Friends extends HttpServlet {
 				stmt = null;
 				friendsId = new Integer[counter];
 				friendsUserName = new String[counter];
-				stmt = connection.prepareStatement(prop.getValue("query_selectFriends"));
+				stmt = connection.prepareStatement(prop.getValue("selectFriends"));
 				stmt.setInt(1, (Integer) session.getAttribute("usid"));
 				result = stmt.executeQuery();
 				Integer i = 0;
@@ -75,7 +75,7 @@ public class Friends extends HttpServlet {
 				result = null;
 				System.out.println("Friend ID 1: " + friendsId[0]);
 				for (Integer x = 0; x < i; x++) {
-					stmt = connection.prepareStatement(prop.getValue("query_selectUsersById"));
+					stmt = connection.prepareStatement(prop.getValue("selectUsersById"));
 					stmt.setInt(1, friendsId[x]);
 					result = stmt.executeQuery();
 					if(result.next()) {
@@ -125,7 +125,7 @@ public class Friends extends HttpServlet {
 			System.out.println("Add Friend!");
 			Integer user_id = (Integer) session.getAttribute("usid");
 			Integer user_idFriend = null;
-			stmt = connection.prepareStatement(prop.getValue("query_getUserId"));
+			stmt = connection.prepareStatement(prop.getValue("getUserId"));
 			stmt.setString(1, friendInnerClass.getUserFriend());
 			result = stmt.executeQuery();
 			if(result.next()) {
@@ -133,7 +133,7 @@ public class Friends extends HttpServlet {
 				friendInnerClass.setUserFriendId(user_idFriend);
 				if(user_idFriend != null && user_idFriend > 0) { // Usar camel case
 					stmt = null;
-					stmt = connection.prepareStatement(prop.getValue("query_insertFriend"));
+					stmt = connection.prepareStatement(prop.getValue("insertFriend"));
 					stmt.setInt(1, user_id);
 					stmt.setInt(2, user_idFriend);
 					stmt.executeUpdate();

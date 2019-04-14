@@ -58,7 +58,7 @@ public class Register extends HttpServlet {
 				boolsex = false;
 			}
         	PreparedStatement stat = null;
-        	String signupQuery = prop.getValue("query_newUser");
+        	String signupQuery = prop.getValue("newUser");
         	encPassword = new Encrypt(user_password);
         	stat = connection.prepareStatement(signupQuery);
         	stat.setString(1, user_username);

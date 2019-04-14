@@ -57,7 +57,7 @@ public class UpdateUserConfig extends HttpServlet {
 		AvatarResponse<?> resp = new AvatarResponse();
     	HttpSession session = request.getSession();
     	PreparedStatement stat = null;
-    	stat = connection.prepareStatement(prop.getValue("query_getAvatar"));
+    	stat = connection.prepareStatement(prop.getValue("getAvatar"));
     	stat.setString(1, (String) session.getAttribute("usr"));
     	ResultSet res = stat.executeQuery();
     	if(res.next()) {
@@ -118,7 +118,7 @@ public class UpdateUserConfig extends HttpServlet {
 					while ((read = filecontent.read(bytes)) != -1) {
 						output.write(bytes, 0, read);
 					}
-					stat = connection.prepareStatement(prop.getValue("query_updateAvatar"));
+					stat = connection.prepareStatement(prop.getValue("updateAvatar"));
 					stat.setString(1, dirWeb);
 					stat.setString(2, (String) session.getAttribute("usr"));
 					stat.executeUpdate();
@@ -135,7 +135,7 @@ public class UpdateUserConfig extends HttpServlet {
 				String oldPass = request.getParameter("oldPass");
 				String newPass = request.getParameter("newPass");
 				encPassword = new Encrypt(oldPass);
-				stmt = connection.prepareStatement(prop.getValue("query_logIn"));
+				stmt = connection.prepareStatement(prop.getValue("logIn"));
 				stmt.setString(1, (String) session.getAttribute("usr"));
 				stmt.setString(2, encPassword.returnEncrypt());
 				ResultSet res = stmt.executeQuery();
@@ -143,7 +143,7 @@ public class UpdateUserConfig extends HttpServlet {
 					stmt.close();
 					res.close();
 					encPassword = new Encrypt(newPass);
-					stmt = connection.prepareStatement(prop.getValue("query_PasswordChange"));
+					stmt = connection.prepareStatement(prop.getValue("PasswordChange"));
 					stmt.setString(1, encPassword.returnEncrypt());
 					stmt.setString(2, (String) session.getAttribute("usr"));
 					stmt.executeUpdate();
@@ -159,7 +159,7 @@ public class UpdateUserConfig extends HttpServlet {
 				System.out.println("Email Change");
 				String oldEmail = request.getParameter("oldEmail");
 				String newEmail = request.getParameter("newEmail");
-				stmt = connection.prepareStatement(prop.getValue("query_updateEmail"));
+				stmt = connection.prepareStatement(prop.getValue("updateEmail"));
 				stmt.setString(1, oldEmail);
 				stmt.setString(2, (String) session.getAttribute("usr"));
 				stmt.setString(3, newEmail);
@@ -177,7 +177,7 @@ public class UpdateUserConfig extends HttpServlet {
 				String newName = request.getParameter("newName");
 				String newLName = request.getParameter("newLName");
 				if((newName.trim() != null) && (newLName.trim() != null)) {
-					stmt = connection.prepareStatement(prop.getValue("query_updateName"));
+					stmt = connection.prepareStatement(prop.getValue("updateName"));
 					stmt.setString(1, newName);
 					stmt.setString(2, newLName);
 					stmt.setString(3, (String) session.getAttribute("usr"));

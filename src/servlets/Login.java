@@ -46,7 +46,7 @@ public class Login extends HttpServlet {
 		PropertiesReader prop = PropertiesReader.getInstance();
 		HttpSession session;
 		PreparedStatement stat = null;
-		String loginQuery = prop.getValue("query_logIn");
+		String loginQuery = prop.getValue("logIn");
 		LogInInnerClass innerClass = objMapper.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), LogInInnerClass.class);
 		Response<LogInInnerClass> resp = new Response<>();
         try { 
