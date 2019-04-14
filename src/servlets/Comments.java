@@ -53,14 +53,13 @@ public class Comments extends HttpServlet {
 		Response<CommentInnerClass> resp = new Response<>();
 		HttpSession session = request.getSession();
 		PreparedStatement stmt = null;
-		//ResultSet result = null;
 		String userLoggedUsername = (String) session.getAttribute("usr");
 		Integer userLoggedId = (Integer) session.getAttribute("usid");
 		if((userLoggedUsername.trim()) != null && (userLoggedId != null)) {
 			commentInnerClass.setUserId(userLoggedId);
 			try {
 				System.out.println("Create New Comment");
-				stmt = connection.prepareStatement(prop.getValue(""));
+				stmt = connection.prepareStatement(prop.getValue("newUser"));
 				stmt.setString(1, commentInnerClass.getCommentText());
 				stmt.setString(2, commentInnerClass.getCommentUrl());
 				stmt.setInt(3, commentInnerClass.getUserId());
@@ -71,6 +70,12 @@ public class Comments extends HttpServlet {
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
+			resp.setMessage("Operation Successfull!");
+			resp.setStatus(200);
+			resp.setRedirect(null);
+			resp.setData(commentInnerClass);
+			String res = objMapper.writeValueAsString(resp);
+			response.getWriter().print(res);
 		} else {
 			System.out.println("User Not Logged");
 		}

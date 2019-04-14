@@ -88,11 +88,13 @@ function getPublication() {
 			item2.appendChild(item3);
 			if(data.postUrl[i].trim() != 'unknown' && data.postType[i] == 2){
 				item4 = document.createElement("img");
+				item4.setAttribute("id", "url" + data.postId[i]);
 				item4.setAttribute("class", "responsive-img");
 				item4.src = data.postUrl[i];
 				item3.appendChild(item4);
 			} else if (data.postUrl[i].trim() != 'unknown' && data.postType[i] == 3){
 				item4 = document.createElement("video");
+				item4.setAttribute("id", "url" + data.postId[i]);
 				item4.controls = true;
 				item4.src = data.postUrl[i];
 				item3.appendChild(item4);
@@ -107,12 +109,12 @@ function getPublication() {
 			item3.appendChild(document.createElement("br"));
 			item3.appendChild(document.createElement("br"));
 			item7 = document.createElement("input");
-			item7.setAttribute("id", "comment"+data.postId[i]);
+			item7.setAttribute("id", "comment" + data.postId[i]);
 			item7.setAttribute("class", "validate");
 			item7.setAttribute("type", "text");
 			item6.appendChild(item7);
 			item8 = document.createElement("label");
-			item8.setAttribute("for", "comment"+data.postId[i]);
+			item8.setAttribute("for", "comment" + data.postId[i]);
 			item8.setAttribute("class", "");
 			item8.innerText = "Comment Here!";
 			item6.appendChild(item8);
@@ -137,7 +139,34 @@ function getPublication() {
 function doComment(){
 	var buttonIdentity = "actionButton" + commentDefiner;
 	var commentIdentity = "comment" + commentDefiner;
-	console.log("testing buttons... You clicked button: " + buttonIdentity + " to get comment: " + commentIdentity);
-	console.log($(commentIdentity).value);
+	var urlIdentity;
+	var commentUrl = "url" + commentDefiner;
+	var urlConfig;
+	if($("url" + commentDefiner)){
+		urlConfig = $(commentUrl).src;
+	} else {
+		urlConfig = "unknown";
+	}
+	//alert("Element has URL: " + urlConfig);
+	let body = {
+		commentText: $(commentIdentity).value,
+		commentUrl: urlConfig,
+		postId: commentDefiner
+	};
+	let config = {
+		method: 'POST',
+		body: JSON.stringify(body)
+	};
+	fetch(("./Comments"), config)
+		.then(function(response){
+			return response.json();
+		})
+		.then(function(data){
+			console.log(data);
+		})
+	
+	//console.log("testing buttons... You clicked button: " + buttonIdentity + " to get comment: " + commentIdentity);
+	//console.log($(commentIdentity).value);
+	
 	//let see if it works
 }
