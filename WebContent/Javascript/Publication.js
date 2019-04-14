@@ -144,6 +144,17 @@ function getPublication() {
 			likeIcon.setAttribute("class","material-icons");
 			likeIcon.innerHTML = "thumb_up";
 			like.appendChild(likeIcon);
+			//button dislike
+			dislike = document.createElement("button");
+			//dislike.setAttribute("onclick", "like");
+			dislike.setAttribute("class", "btn-floating btn-medium waves-effect waves-light red darken-4");
+			dislike.setAttribute("id","buttondislike" + data.postId[i]);
+			item9.appendChild(dislike);
+			//dislikeIcon 
+			dislikeIcon = document.createElement("i");
+			dislikeIcon.setAttribute("class","material-icons");
+			dislikeIcon.innerHTML = "thumb_down";
+			dislike.appendChild(dislikeIcon);
 			//Lets See What Happens...
 			postsIdentity.push(data.postId[i]);
 		}
