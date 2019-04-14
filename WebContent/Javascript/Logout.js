@@ -38,4 +38,13 @@ function getAvatar(){
 	})
 }
 
+function viewNotifications(){
+	if(document.getElementById("divNotifications").style.display == "none"){
+		document.getElementById("divNotifications").style.display = "block";
+	} else if (document.getElementById("divNotifications").style.display == "block"){
+		document.getElementById("divNotifications").style.display = "none";
+	}
+}
+
 document.getElementById("button2").addEventListener("click", logOut);
+document.getElementById("notif").addEventListener("click", viewNotifications);

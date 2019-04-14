@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import utility.DataBase;
 import utility.FriendInnerClass;
+import utility.FriendsResponse;
 import utility.PropertiesReader;
 import utility.Response;
 
@@ -34,6 +35,73 @@ public class Friends extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		getFriendList(conn.getConnection(),request,response);
+	}
+
+	private void getFriendList(Connection connection, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		ObjectMapper objMapper = new ObjectMapper();
+		PropertiesReader prop = PropertiesReader.getInstance();
+		@SuppressWarnings("rawtypes")
+		FriendsResponse<?> resp = new FriendsResponse();
+		HttpSession session = request.getSession();
+		PreparedStatement stmt = null;
+		ResultSet result = null;
+		Integer[] friendsId;
+		Integer counter = null;
+		String[] friendsUserName = null;
+		try {
+			System.out.println("Getting Friends...");
+			stmt = connection.prepareStatement(prop.getValue("query_selectFriendCount"));
+			stmt.setInt(1, (Integer) session.getAttribute("usid"));
+			result = stmt.executeQuery();
+			if(result.next()) {
+				counter = result.getInt("count");
+			}
+			if(counter > 0) {
+				resp.setFriendCounter(counter);
+				result = null;
+				stmt = null;
+				friendsId = new Integer[counter];
+				friendsUserName = new String[counter];
+				stmt = connection.prepareStatement(prop.getValue("query_selectFriends"));
+				stmt.setInt(1, (Integer) session.getAttribute("usid"));
+				result = stmt.executeQuery();
+				Integer i = 0;
+				while (result.next()) {
+					friendsId[i] = result.getInt("user_id2");
+					i++;
+				}
+				stmt = null;
+				result = null;
+				System.out.println("Friend ID 1: " + friendsId[0]);
+				for (Integer x = 0; x < i; x++) {
+					stmt = connection.prepareStatement(prop.getValue("query_selectUsersById"));
+					stmt.setInt(1, friendsId[x]);
+					result = stmt.executeQuery();
+					if(result.next()) {
+						friendsUserName[x] = result.getString("user_username");
+					}
+				}
+				resp.setFriendsId(friendsId);
+				resp.setFriendsUserName(friendsUserName);
+				resp.setStatus(200);
+				resp.setMessage("Woah! You have Friends!!");
+				String res = objMapper.writeValueAsString(resp);
+				response.getWriter().print(res);
+			} else {
+				resp.setMessage("No friends... Noob");
+				resp.setStatus(200);
+				resp.setFriendsId(null);
+				resp.setFriendsUserName(null);
+				String res = objMapper.writeValueAsString(resp);
+				response.getWriter().print(res);
+			}
+			result.close();
+			stmt.close();
+			connection.close();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -44,7 +112,6 @@ public class Friends extends HttpServlet {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	private void addFri3nd(Connection connection, HttpServletRequest request, HttpServletResponse response) throws SQLException, JsonParseException, JsonMappingException, IOException {
 		ObjectMapper objMapper = new ObjectMapper();
 		PropertiesReader prop = PropertiesReader.getInstance();
@@ -53,7 +120,7 @@ public class Friends extends HttpServlet {
 		HttpSession session = request.getSession();
 		PreparedStatement stmt = null;
 		ResultSet result = null;
-		boolean valid;
+		boolean valid = false;
 		try {
 			System.out.println("Add Friend!");
 			Integer user_id = (Integer) session.getAttribute("usid");
@@ -64,7 +131,7 @@ public class Friends extends HttpServlet {
 			if(result.next()) {
 				user_idFriend = result.getInt("user_id");
 				friendInnerClass.setUserFriendId(user_idFriend);
-				if(user_idFriend != null) {
+				if(user_idFriend != null && user_idFriend > 0) { // Usar camel case
 					stmt = null;
 					stmt = connection.prepareStatement(prop.getValue("query_insertFriend"));
 					stmt.setInt(1, user_id);
@@ -74,11 +141,11 @@ public class Friends extends HttpServlet {
 				} else {
 					valid = false;
 				}
-			}
+			} // else para result.next()
 			stmt.close();
 			result.close();
 			connection.close();
-			if(valid = true) {
+			if(valid) {
 				resp.setStatus(200);
 				resp.setMessage("Successfully Added!");
 				resp.setRedirect(null);
@@ -100,7 +167,5 @@ public class Friends extends HttpServlet {
 			String res = objMapper.writeValueAsString(resp);
 			response.getWriter().print(res);
 		}
-		
 	}
-	
 }

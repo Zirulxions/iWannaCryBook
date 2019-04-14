@@ -5,7 +5,8 @@
 	<meta charset="utf-8">
   	<title>Update User</title>
   	<link rel="stylesheet" type="text/css" href="Materialize/css/materialize.min.css">
-  	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  	<link href="Materialize/iconfont/material-icons.css" rel="stylesheet">
+  	<link href="CSS/Notification.css" rel="stylesheet" type="text/css">
 </head>
 <body onload="getAvatar();" style="background:url(Resources/F1.PNG) no-repeat center center fixed; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;">
 	<nav class="teal darken-2 white-tex">
@@ -15,97 +16,114 @@
 			</a>
       		<span id="name">Id. User</span>
       		<ul id="nav-mobile" class="left">
-        		<li><a class="waves-effect waves-light btn" id="button2">Logout<i class="material-icons right">cloud</i></a></li>
+        		<li><a class="waves-effect waves-light btn" id="button2">Logout<i class="material-icons right">power_settings_new</i></a></li>
 	    	</ul>
 	    	<ul id="nav-mobile" class="left">
-        		<li><a class="waves-effect waves-light btn" href="UserLogged.html">Home<i class="material-icons right">cloud</i></a></li>
+        		<li><a class="waves-effect waves-light btn" href="UserLogged.html">Home<i class="material-icons right">verified_user</i></a></li>
+	    	</ul>
+	    	<ul id="nav-mobile" class="left">
+	    		<li><a class="btn-floating pulse" id="notif"><i class="material-icons">notifications</i></a></li>
 	    	</ul>
     	</div>
 	</nav>
 	<div class="container">
-	   	<div class="col s12 m12">
-        	<div class="card-panel white">
-	        	<div class="card-content">
-	        		<h3 class="header">Upload Avatar</h3>
-	       			<span class="card-title activator white-text" style="font-size: 23px">Over Here</span>
-		          	<div class="file-field input-field">
-	           			<div class="btn">
-	              			<span>Select File</span>
-	              			<input type="file" id="file" accept="image/*">
-	           			</div>
-	           			<div class="file-path-wrapper">
-	              			<input class="file-path validate" type="text" placeholder="Select Image" accept="image/*">
-	           			</div>
-	          		</div>
-	            </div>
-	            <div class="card-action">
-	          		<button class="btn waves-effect waves-light col s5 push-s7" type="submit" name="action" id="changeAvatar">Upload New Avatar
-    					<i class="material-icons right">send</i></button>
+		<div class="row" id="divNotifications" style="display:none; z-index:2;">
+			<div class="col s12 m12">
+				<div class="card-panel">
+					<span>Friend Name and ID
+						<a class="waves-effect waves-light btn"><i class="material-icons right">person_add</i>Accept</a>
+						<a class="waves-effect waves-light btn grey"><i class="material-icons right">not_interested</i>Ignore</a>
+					</span>
 				</div>
-            </div>
-        </div>
-		<div class="col s12 m7">
-	    	<div class="card horizontal">
-	      		<div class="card-stacked">
-	        		<div class="card-content">
-	        			<h3 class="header">Update Password</h3>
-	          			<div class="input-field col s6">
-          					<input id="oldPass" type="password" class="validate">
-          					<label for="oldPass" class="active">Current Password</label>
-        				</div>
-        				<div class="input-field col s6">
-          					<input id="newPass" type="password" class="validate">
-          					<label for="newPass" class="active">New Password</label>
-        				</div>
-	        		</div>
-	        		<div class="card-action">
-	          			<button class="btn waves-effect waves-light col s5 push-s7" type="submit" name="action" id="changePassword">Change Password
-    						<i class="material-icons right">send</i></button>
-	        		</div>
-	      		</div>
-	    	</div>
+			</div>
 		</div>
-		<div class="col s12 m7">
-	    	<div class="card horizontal">
-	      		<div class="card-stacked">
-	        		<div class="card-content">
-	        			<h3 class="header">Update Email</h3>
-	          			<div class="input-field col s6">
-          					<input id="oldEmail" type="text" class="validate">
-          					<label for="oldEmail" class="active">Last Email</label>
-        				</div>
-        				<div class="input-field col s6">
-          					<input id="newEmail" type="text" class="validate">
-          					<label for="newEmail" class="active">New Email</label>
-        				</div>
-	        		</div>
-	        		<div class="card-action">
-	          			<button class="btn waves-effect waves-light col s5 push-s7" type="submit" name="action" id="changeEmail">Change Email
-    						<i class="material-icons right">send</i></button>
-	        		</div>
-	      		</div>
-	    	</div>
-		</div>
-		<div class="col s12 m7">
-	    	<div class="card horizontal">
-	      		<div class="card-stacked">
-	        		<div class="card-content">
-	        			<h3 class="header">Update Name</h3>
-        				<div class="input-field col s6">
-          					<input id="newName" type="text" class="validate">
-          					<label for="newName" class="active">Name</label>
-        				</div>
-        				<div class="input-field col s6">
-          					<input id="newLName" type="text" class="validate">
-          					<label for="newLName" class="active">Last Name</label>
-        				</div>
-	        		</div>
-	        		<div class="card-action">
-	          			<button class="btn waves-effect waves-light col s5 push-s7" type="submit" name="action" id="changeName">Change Name
-    						<i class="material-icons right">send</i></button>
-	        		</div>
-	      		</div>
-	    	</div>
+		<div id="rowEdit" style="z-index:1;">
+		   	<div class="col s12 m12">
+	        	<div class="card horizontal">
+		        	<div class="card-stacked">
+			        	<div class="card-content">
+			        		<h3 class="header">Upload Avatar</h3>
+			       			<span class="card-title activator white-text" style="font-size: 23px">Over Here</span>
+				          	<div class="file-field input-field">
+			           			<div class="btn">
+			              			<span>Select File</span>
+			              			<input type="file" id="file" accept="image/*">
+			           			</div>
+			           			<div class="file-path-wrapper">
+			              			<input class="file-path validate" type="text" placeholder="Select Image" accept="image/*">
+			           			</div>
+			          		</div>
+			            </div>
+			            <div class="card-action">
+			          		<button class="btn waves-effect waves-light col s5 push-s7" type="submit" name="action" id="changeAvatar">Upload New Avatar
+		    					<i class="material-icons right">send</i></button>
+						</div>
+					</div>
+	            </div>
+	        </div>
+			<div class="col s12 m12">
+		    	<div class="card horizontal">
+		      		<div class="card-stacked">
+		        		<div class="card-content">
+		        			<h3 class="header">Update Password</h3>
+		          			<div class="input-field col s6">
+	          					<input id="oldPass" type="password" class="validate">
+	          					<label for="oldPass" class="active">Current Password</label>
+	        				</div>
+	        				<div class="input-field col s6">
+	          					<input id="newPass" type="password" class="validate">
+	          					<label for="newPass" class="active">New Password</label>
+	        				</div>
+		        		</div>
+		        		<div class="card-action">
+		          			<button class="btn waves-effect waves-light col s5 push-s7" type="submit" name="action" id="changePassword">Change Password
+	    						<i class="material-icons right">send</i></button>
+		        		</div>
+		      		</div>
+		    	</div>
+			</div>
+			<div class="col s12 m12">
+		    	<div class="card horizontal">
+		      		<div class="card-stacked">
+		        		<div class="card-content">
+		        			<h3 class="header">Update Email</h3>
+		          			<div class="input-field col s6">
+	          					<input id="oldEmail" type="text" class="validate">
+	          					<label for="oldEmail" class="active">Last Email</label>
+	        				</div>
+	        				<div class="input-field col s6">
+	          					<input id="newEmail" type="text" class="validate">
+	          					<label for="newEmail" class="active">New Email</label>
+	        				</div>
+		        		</div>
+		        		<div class="card-action">
+		          			<button class="btn waves-effect waves-light col s5 push-s7" type="submit" name="action" id="changeEmail">Change Email
+	    						<i class="material-icons right">send</i></button>
+		        		</div>
+		      		</div>
+		    	</div>
+			</div>
+			<div class="col s12 m12">
+		    	<div class="card horizontal">
+		      		<div class="card-stacked">
+		        		<div class="card-content">
+		        			<h3 class="header">Update Name</h3>
+	        				<div class="input-field col s6">
+	          					<input id="newName" type="text" class="validate">
+	          					<label for="newName" class="active">Name</label>
+	        				</div>
+	        				<div class="input-field col s6">
+	          					<input id="newLName" type="text" class="validate">
+	          					<label for="newLName" class="active">Last Name</label>
+	        				</div>
+		        		</div>
+		        		<div class="card-action">
+		          			<button class="btn waves-effect waves-light col s5 push-s7" type="submit" name="action" id="changeName">Change Name
+	    						<i class="material-icons right">send</i></button>
+		        		</div>
+		      		</div>
+		    	</div>
+			</div>
 		</div>
 	</div>
   	<script src="Materialize/js/jquery-3.3.1.min.js"></script>
