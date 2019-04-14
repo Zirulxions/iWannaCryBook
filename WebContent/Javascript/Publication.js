@@ -5,7 +5,8 @@ function $(id) {
 var option, commentDefiner;
 var postsIdentity = [];
 var item1, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11, like, dislike,likeIcon,dislikeIcon;
-var m , n; // likes 
+var m , n; // likes
+
 function upText(){
 	option = 1;
 	doFetch();
@@ -199,6 +200,7 @@ function doComment(){
 
 function getComment(){
 	console.log(postsIdentity + " Has Length: " + postsIdentity.length);
+	/*
 	var body = {
 			postsIdentity: JSON.stringify(postsIdentity),
 	};
@@ -215,12 +217,14 @@ function getComment(){
 			console.log(data);
 			//more appendChild
 		})
+		*/
 }
+
 function Flikeopc(){
 	m = 1;
 	return m;
-	
 }
+
 function Fdislikeopc(){
 	n = 2;
 	return n;
