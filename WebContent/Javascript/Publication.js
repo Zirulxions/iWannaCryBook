@@ -5,7 +5,7 @@ function $(id) {
 var option, commentDefiner;
 var postsIdentity = [];
 var item1, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11, like, dislike,likeIcon,dislikeIcon;
-
+var m , n; // likes 
 function upText(){
 	option = 1;
 	doFetch();
@@ -135,7 +135,7 @@ function getPublication() {
 			item10.appendChild(item11);
 			//button like
 			like = document.createElement("button");
-			//like.setAttribute("onclick", "like");
+			like.setAttribute("onclick", "Flikeopc();");
 			like.setAttribute("class", "btn-floating btn-medium waves-effect waves-light light-blue darken-4");
 			like.setAttribute("id","buttonlike" + data.postId[i]);
 			item9.appendChild(like);
@@ -146,7 +146,7 @@ function getPublication() {
 			like.appendChild(likeIcon);
 			//button dislike
 			dislike = document.createElement("button");
-			//dislike.setAttribute("onclick", "like");
+			dislike.setAttribute("onclick", "Fdislikeopc();");
 			dislike.setAttribute("class", "btn-floating btn-medium waves-effect waves-light red darken-4");
 			dislike.setAttribute("id","buttondislike" + data.postId[i]);
 			item9.appendChild(dislike);
@@ -215,4 +215,13 @@ function getComment(){
 			console.log(data);
 			//more appendChild
 		})
+}
+function Flikeopc(){
+	m = 1;
+	return m;
+	
+}
+function Fdislikeopc(){
+	n = 2;
+	return n;
 }
