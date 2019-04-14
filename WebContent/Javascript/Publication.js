@@ -4,6 +4,7 @@ function $(id) {
 
 var option, commentDefiner;
 var postsIdentity = [];
+var item1, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11, like, dislike,likeIcon,dislikeIcon;
 
 function upText(){
 	option = 1;
@@ -75,7 +76,6 @@ function getPublication() {
 	})
 	.then(function(data){
 		console.log(data);
-		var item1, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11;
 		for(var i = 0; i < data.postCounter; i++){
 			//Create elements.
 			item1 = document.createElement("div");
@@ -110,6 +110,7 @@ function getPublication() {
 			item3.appendChild(document.createElement("br"));
 			item3.appendChild(document.createElement("br"));
 			item7 = document.createElement("input");
+			//comments
 			item7.setAttribute("id", "comment" + data.postId[i]);
 			item7.setAttribute("class", "validate");
 			item7.setAttribute("type", "text");
@@ -132,6 +133,17 @@ function getPublication() {
 			item11.setAttribute("class", "material-icons right");
 			item11.innerHTML = "send";
 			item10.appendChild(item11);
+			//button like
+			like = document.createElement("button");
+			//like.setAttribute("onclick", "like");
+			like.setAttribute("class", "btn-floating btn-medium waves-effect waves-light light-blue darken-4");
+			like.setAttribute("id","buttonlike" + data.postId[i]);
+			item9.appendChild(like);
+			//likeIcon 
+			likeIcon = document.createElement("i");
+			likeIcon.setAttribute("class","material-icons");
+			likeIcon.innerHTML = "thumb_up";
+			like.appendChild(likeIcon);
 			//Lets See What Happens...
 			postsIdentity.push(data.postId[i]);
 		}
