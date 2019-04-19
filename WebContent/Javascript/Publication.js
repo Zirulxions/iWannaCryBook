@@ -200,17 +200,22 @@ function doComment(){
 
 function getComment(){
 	console.log(postsIdentity + " Has Length: " + postsIdentity.length);
-	
-	var body = {
-			postsIdentity: JSON.stringify(postsIdentity),
-	};
+	var uri = encodeURIComponent(JSON.stringify(postsIdentity))
+	console.log(uri);
+	//var body = {
+	//		postsIdentity: JSON.stringify(postsIdentity),
+	//};
 	//console.log("OMAIGA: " + JSON.stringify(body));
-	var config = {
-		method: 'GET',
+	//var config = {
+	//	method: 'GET',
 		//body: JSON.stringify(body),
-		array: JSON.stringify(body)
-	};
-	fetch("./Comments", config)
+	//	array: JSON.stringify(body)
+	//};
+	//console.log(config);
+	
+	// /endpoint?arrid=" + uri
+	
+	fetch("./Comments?arrid=" + postsIdentity, {method: 'GET', header: {'Content-Type':'application/x-www-form-urlencoded'}})
 		.then(function(response){
 			return response.json();
 		})

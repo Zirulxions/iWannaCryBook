@@ -3,10 +3,11 @@ package utility;
 public class CommentResponse<T> {
 	private String message;
 	private Integer status;
-	private String commentText;
-	private String commentUrl;
-	private Integer postId;
-	private Integer userId;
+	private String[] commentText;
+	private String[] commentUrl;
+	private Integer[] postsId;
+	private Integer[] userId;
+	private String[] userUsername;
 	
 	public String getMessage() {
 		return message;
@@ -24,28 +25,43 @@ public class CommentResponse<T> {
 		this.status = status;
 	}
 	
-	public void setCommentText(String commentText) {
+	public void setCommentText(String[] commentText) {
 		this.commentText = commentText;
 	}
-	public String getCommentText() {
+	
+	public String[] getCommentText() {
 		return commentText; 
 	}
-	public void setCommentUrl(String commentUrl) {
+	
+	public void setCommentUrl(String[] commentUrl) {
 		this.commentUrl = commentUrl;
 	}
-	public String getCommentUrl() {
+	
+	public String[] getCommentUrl() {
 		return commentUrl;
 	}
-	public void setPostId(Integer postId) {
-		this.postId = postId;
+	
+	public void setPostId(Integer[] postsId) {
+		this.postsId = postsId;
 	}
-	public Integer getPostId() {
-		return postId;
+	
+	public Integer[] getPostId() {
+		return postsId;
 	}
-	public void setUserId(Integer userId) {
+	
+	public void setUserId(Integer[] userId) {
 		this.userId = userId;
 	}
-	public Integer getUserId(){
+	
+	public Integer[] getUserId(){
 		return userId;
+	}
+	
+	public void setUserUsername(String[] userUsername) {
+		this.userUsername = userUsername;
+	}
+	
+	public String[] getUserUsername() {
+		return userUsername;
 	}
 }

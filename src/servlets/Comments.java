@@ -3,6 +3,7 @@ package servlets;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 
@@ -14,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -43,9 +43,48 @@ public class Comments extends HttpServlet {
 		PropertiesReader prop = PropertiesReader.getInstance();
 		@SuppressWarnings("rawtypes")
 		CommentResponse<?> resp = new CommentResponse();
+		PreparedStatement stmt = null;
+		ResultSet result = null;
 		
-		System.out.println("Array: " + request.getParameterValues("array"));
+		//Response Arrays...
+		String[] commentText = null;
+		String[] commentUrl = null;
+		Integer[] postsId = null;
+		Integer[] userId = null;
+		String[] userUsername = null;
 		
+		String postIdString = request.getParameter("arrid");
+		String[] postsIdStr = postIdString.split(",");
+		for(int i = 0; i < postsIdStr.length; i++) {
+			System.out.println("Array Spot (String) " + i + ": " + postsIdStr[i]);
+		}
+		Integer[] postsIntArray = new Integer[postsIdStr.length];
+		int i = 0;
+		int x = 0;
+		for(String oldStr : postsIdStr) {
+			postsIntArray[x] = Integer.parseInt(oldStr);
+			x++;
+		}
+		/*
+		for(i = 0; i < postsIdStr.length; i++) {
+			System.out.println("Array Spot (Integer) " + i + ": " + postsIntArray[i]);
+		}
+		*/
+		try {
+			for(i = 0; i < postsIntArray.length; i++) {
+				stmt = connection.prepareStatement(prop.getValue("selectComments"));
+				stmt.setInt(1, postsIntArray[1]);
+				result = stmt.executeQuery();
+				while(result.next()) {
+					
+				}
+				stmt = null;
+				result = null;
+			}
+		} catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		resp.setPostId(postsIntArray);
 		resp.setMessage("Operation Successfull!");
 		resp.setStatus(200);
 		String res = objMapper.writeValueAsString(resp);
@@ -69,7 +108,7 @@ public class Comments extends HttpServlet {
 			commentInnerClass.setUserId(userLoggedId);
 			try {
 				System.out.println("Create New Comment");
-				stmt = connection.prepareStatement(prop.getValue("newUser"));
+				stmt = connection.prepareStatement(prop.getValue("newComment"));
 				stmt.setString(1, commentInnerClass.getCommentText());
 				stmt.setString(2, commentInnerClass.getCommentUrl());
 				stmt.setInt(3, commentInnerClass.getUserId());
@@ -77,17 +116,27 @@ public class Comments extends HttpServlet {
 				stmt.executeUpdate();
 				stmt.close();
 				connection.close();
+				resp.setMessage("Operation Successfull!");
+				resp.setStatus(200);
+				resp.setRedirect(null);
+				resp.setData(commentInnerClass);
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
+				resp.setMessage("Unable to post comment...!");
+				resp.setStatus(400);
+				resp.setRedirect(null);
+				resp.setData(commentInnerClass);
 			}
-			resp.setMessage("Operation Successfull!");
-			resp.setStatus(200);
-			resp.setRedirect(null);
-			resp.setData(commentInnerClass);
 			String res = objMapper.writeValueAsString(resp);
 			response.getWriter().print(res);
 		} else {
 			System.out.println("User Not Logged");
+			resp.setMessage("Unable to post comment...!");
+			resp.setStatus(500);
+			resp.setRedirect(null);
+			resp.setData(commentInnerClass);
+			String res = objMapper.writeValueAsString(resp);
+			response.getWriter().print(res);
 		}
 	}
 }
