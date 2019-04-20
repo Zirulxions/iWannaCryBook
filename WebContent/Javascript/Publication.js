@@ -87,6 +87,7 @@ function getPublication() {
 			item1.appendChild(item2);
 			item3 = document.createElement("div");
 			item3.setAttribute("class", "card-content");
+			item3.setAttribute("id", "content" + data.postId[i]);
 			item2.appendChild(item3);
 			if(data.postUrl[i].trim() != 'unknown' && data.postType[i] == 2){
 				item4 = document.createElement("img");
@@ -198,10 +199,12 @@ function doComment(){
 	//let see if it works
 }
 
+var iComment1, iComment2, iComment3;
+
 function getComment(){
 	console.log(postsIdentity + " Has Length: " + postsIdentity.length);
-	var uri = encodeURIComponent(JSON.stringify(postsIdentity))
-	console.log(uri);
+	//var uri = encodeURIComponent(JSON.stringify(postsIdentity))
+	//console.log(uri);
 	//var body = {
 	//		postsIdentity: JSON.stringify(postsIdentity),
 	//};
@@ -222,8 +225,12 @@ function getComment(){
 		.then(function(data){
 			console.log(data);
 			//more appendChild
-		})
-		
+			for(var x = 0; x < data.postId.length; x++){
+				iComment1 = document.createElement("h6");
+				iComment1.innerHTML = data.userUsername[x] + ": " + data.commentText[x];
+				$("content" + data.postId[x]).appendChild(iComment1);
+			}
+		})	
 }
 
 function doLike(){

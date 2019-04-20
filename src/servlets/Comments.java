@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
@@ -46,21 +48,32 @@ public class Comments extends HttpServlet {
 		PreparedStatement stmt = null;
 		ResultSet result = null;
 		
+		System.out.println("Getting Comments...");
+		
 		//Response Arrays...
-		String[] commentText = null;
-		String[] commentUrl = null;
-		Integer[] postsId = null;
-		Integer[] userId = null;
-		String[] userUsername = null;
+		List<String> commentText = new ArrayList<String>();
+		List<String> commentUrl = new ArrayList<String>();
+		List<Integer> postsId = new ArrayList<Integer>();
+		List<Integer> userId = new ArrayList<Integer>();
+		List<String> userUsername = new ArrayList<String>();
+		
+		/*
+		commentText.add("First");
+		userId.add(1);
+		commentText.add("Second");
+		userId.add(2);
+		System.out.println(commentText.get(1) + " NUMBERS: " + userId.toString());
+		*/
 		
 		String postIdString = request.getParameter("arrid");
 		String[] postsIdStr = postIdString.split(",");
+		/*
 		for(int i = 0; i < postsIdStr.length; i++) {
 			System.out.println("Array Spot (String) " + i + ": " + postsIdStr[i]);
 		}
+		*/
 		Integer[] postsIntArray = new Integer[postsIdStr.length];
-		int i = 0;
-		int x = 0;
+		int i = 0, x = 0;
 		for(String oldStr : postsIdStr) {
 			postsIntArray[x] = Integer.parseInt(oldStr);
 			x++;
@@ -73,20 +86,42 @@ public class Comments extends HttpServlet {
 		try {
 			for(i = 0; i < postsIntArray.length; i++) {
 				stmt = connection.prepareStatement(prop.getValue("selectComments"));
-				stmt.setInt(1, postsIntArray[1]);
+				stmt.setInt(1, postsIntArray[i]);
 				result = stmt.executeQuery();
 				while(result.next()) {
-					
+					commentText.add(result.getString("comment_text"));
+					commentUrl.add(result.getString("comment_url"));
+					postsId.add(result.getInt("post_id"));
+					userId.add(result.getInt("user_id"));
+					userUsername.add(result.getString("user_username"));
 				}
-				stmt = null;
-				result = null;
 			}
+			System.out.println("Comment List: " + commentText.toString());
+			result.close();
+			stmt.close();
+			connection.close();
+			String[] commentArrText = new String[commentText.size()];
+			String[] commentArrUrl = new String[commentUrl.size()];
+			Integer[] postsArrId = new Integer[postsId.size()];
+			Integer[] userArrId = new Integer[userId.size()];
+			String[] userArrUsername = new String[userUsername.size()];
+			commentText.toArray(commentArrText);
+			commentUrl.toArray(commentArrUrl);
+			postsId.toArray(postsArrId);
+			userId.toArray(userArrId);
+			userUsername.toArray(userArrUsername);
+			resp.setCommentText(commentArrText);
+			resp.setCommentUrl(commentArrUrl);
+			resp.setPostId(postsArrId);
+			resp.setUserId(userArrId);
+			resp.setUserUsername(userArrUsername);
+			resp.setMessage("Operation Successfull!");
+			resp.setStatus(200);
 		} catch(SQLException e) {
 			System.out.println(e.getMessage());
+			resp.setStatus(400);
+			resp.setMessage("Internal Server Error.");
 		}
-		resp.setPostId(postsIntArray);
-		resp.setMessage("Operation Successfull!");
-		resp.setStatus(200);
 		String res = objMapper.writeValueAsString(resp);
 		response.getWriter().print(res);
 	}
