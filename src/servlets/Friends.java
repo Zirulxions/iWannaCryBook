@@ -120,7 +120,6 @@ public class Friends extends HttpServlet {
 		HttpSession session = request.getSession();
 		PreparedStatement stmt = null;
 		ResultSet result = null;
-		boolean valid = false;
 		try {
 			System.out.println("Add Friend!");
 			Integer user_id = (Integer) session.getAttribute("usid");
@@ -131,31 +130,24 @@ public class Friends extends HttpServlet {
 			if(result.next()) {
 				user_idFriend = result.getInt("user_id");
 				friendInnerClass.setUserFriendId(user_idFriend);
-				if(user_idFriend != null && user_idFriend > 0) { // Usar camel case
-					stmt = null;
-					stmt = connection.prepareStatement(prop.getValue("insertFriend"));
-					stmt.setInt(1, user_id);
-					stmt.setInt(2, user_idFriend);
-					stmt.executeUpdate();
-					valid = true;
-				} else {
-					valid = false;
-				}
-			} // else para result.next()
-			stmt.close();
-			result.close();
-			connection.close();
-			if(valid) {
+				stmt = null;
+				stmt = connection.prepareStatement(prop.getValue("insertFriend"));
+				stmt.setInt(1, user_id);
+				stmt.setInt(2, user_idFriend);
+				stmt.executeUpdate();
 				resp.setStatus(200);
 				resp.setMessage("Successfully Added!");
 				resp.setRedirect(null);
 				resp.setData(friendInnerClass);
 			} else {
-				resp.setStatus(500);
-				resp.setMessage("Something is not good");
+				resp.setStatus(200);
+				resp.setMessage("User " + friendInnerClass.getUserFriend() + " is not registered.");
 				resp.setRedirect(null);
 				resp.setData(null);
 			}
+			stmt.close();
+			result.close();
+			connection.close();
 			String res = objMapper.writeValueAsString(resp);
 			response.getWriter().print(res);
 		}catch(SQLException e) {

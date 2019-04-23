@@ -16,9 +16,9 @@ import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import utility.CommentInnerClass;
 import utility.DataBase;
 import utility.LikeInnerClass;
+import utility.LikeResponse;
 import utility.PropertiesReader;
 import utility.Response;
 
@@ -33,6 +33,20 @@ public class Likes extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		getLikes(conn.getConnection(), request, response);
+	}
+
+	private void getLikes(Connection connection, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		ObjectMapper objMapper = new ObjectMapper();
+		PropertiesReader prop = PropertiesReader.getInstance();
+		@SuppressWarnings("rawtypes")
+		LikeResponse<?> resp = new LikeResponse();
+		PreparedStatement stmt = null;
+		ResultSet result = null;
+		resp.setMessage("Message Received: " + request.getParameter("arrid"));
+		resp.setStatus(200);
+		String res = objMapper.writeValueAsString(resp);
+		response.getWriter().print(res);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
