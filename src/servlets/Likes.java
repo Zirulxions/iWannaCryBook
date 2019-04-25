@@ -43,8 +43,48 @@ public class Likes extends HttpServlet {
 		LikeResponse<?> resp = new LikeResponse();
 		PreparedStatement stmt = null;
 		ResultSet result = null;
-		resp.setMessage("Message Received: " + request.getParameter("arrid"));
-		resp.setStatus(200);
+		String[] postsId = ((String) request.getParameter("arrid")).split(",");
+		Integer[] postArrId = new Integer[postsId.length];
+		int x = 0;
+		for(String oldStr : postsId) {
+			postArrId[x] = Integer.parseInt(oldStr);
+			x++;
+		}
+		Integer[] postLike = new Integer[postsId.length];
+		Integer[] postDislike = new Integer[postsId.length];
+		try {
+			for(int i = 0; i < postsId.length; i++) {
+				stmt = connection.prepareStatement(prop.getValue("getLike"));
+				stmt.setInt(1, Integer.parseInt(postsId[i]));
+				result = stmt.executeQuery();
+				if(result.next()) {
+					postLike[i] = result.getInt("count");
+				} else {
+					postLike[i] = 0;
+				}
+			}
+			stmt = null;
+			result = null;
+			for(int i = 0; i < postsId.length; i++) {
+				stmt = connection.prepareStatement(prop.getValue("getDislike"));
+				stmt.setInt(1, Integer.parseInt(postsId[i]));
+				result = stmt.executeQuery();
+				if(result.next()) {
+					postDislike[i] = result.getInt("count");
+				} else {
+					postDislike[i] = 0;
+				}
+			}
+			resp.setPostsId(postArrId);
+			resp.setPostsLikes(postLike);
+			resp.setPostsDislikes(postDislike);
+			resp.setStatus(200);
+			resp.setMessage("Loaded Post's Likes");
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			resp.setMessage("Internal Server Error");
+			resp.setStatus(400);
+		}
 		String res = objMapper.writeValueAsString(resp);
 		response.getWriter().print(res);
 	}
@@ -53,6 +93,7 @@ public class Likes extends HttpServlet {
 		doLike(conn.getConnection(), request, response);
 	}
 
+	@SuppressWarnings("resource")
 	private void doLike(Connection connection, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		ObjectMapper objMapper = new ObjectMapper();
 		HttpSession session = request.getSession();
@@ -66,9 +107,21 @@ public class Likes extends HttpServlet {
 			likeInnerClass.setUserId(userId);
 			stmt = connection.prepareStatement(prop.getValue("validateLike"));
 			stmt.setInt(1, userId);
+			stmt.setInt(2, likeInnerClass.getPostId());
 			result = stmt.executeQuery();
 			if(result.next()) {
-				resp.setMessage("Like already exist...!");
+				Integer typeLike = result.getInt("type_like_id");
+				System.out.println(typeLike);
+				stmt = connection.prepareStatement(prop.getValue("deleteLike"));
+				stmt.setInt(1, userId);
+				stmt.setInt(2, likeInnerClass.getPostId());
+				stmt.setInt(3, typeLike);
+				stmt.executeUpdate();
+				if (typeLike == 1) {
+					resp.setMessage("Like Deleted");
+				} else if (typeLike == 2) {
+					resp.setMessage("Dislike Deleted");
+				}
 				resp.setStatus(200);
 				resp.setRedirect(null);
 				resp.setData(likeInnerClass);
@@ -78,7 +131,11 @@ public class Likes extends HttpServlet {
 				stmt.setInt(2, likeInnerClass.getPostId());
 				stmt.setInt(3, likeInnerClass.getTypeLike());
 				stmt.executeUpdate();
-				resp.setMessage("Like added");
+				if(likeInnerClass.getTypeLike() == 1) {
+					resp.setMessage("Like added... <3");
+				} else if (likeInnerClass.getTypeLike() == 2){
+					resp.setMessage("Dislike added... Bitch");
+				}
 				resp.setStatus(200);
 				resp.setRedirect(null);
 				resp.setData(likeInnerClass);

@@ -115,7 +115,7 @@ public class Comments extends HttpServlet {
 			resp.setPostId(postsArrId);
 			resp.setUserId(userArrId);
 			resp.setUserUsername(userArrUsername);
-			resp.setMessage("Operation Successfull!");
+			resp.setMessage("Successfully Loaded Comments.");
 			resp.setStatus(200);
 		} catch(SQLException e) {
 			System.out.println(e.getMessage());

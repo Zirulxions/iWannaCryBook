@@ -4,7 +4,7 @@ function $(id) {
 
 var option, commentDefiner, likeDefiner, typeLike;
 var postsIdentity = [];
-var item1, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11, like, dislike, likeIcon, dislikeIcon;
+var item1, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11, like, dislike, likeIcon, dislikeIcon, likeTxT, dislikeTxT;
 var m , n;
 
 function upText(){
@@ -137,6 +137,7 @@ function getPublication() {
 			like.setAttribute("onclick", "typeLike = 1; likeDefiner = " + data.postId[i] + "; doLike();");
 			like.setAttribute("class", "btn-floating btn-medium waves-effect waves-light light-blue darken-4");
 			like.setAttribute("id","buttonlike" + data.postId[i]);
+			like.setAttribute("style","margin-left:10px;");
 			item9.appendChild(like);
 			likeIcon = document.createElement("i");
 			likeIcon.setAttribute("class","material-icons");
@@ -146,11 +147,20 @@ function getPublication() {
 			dislike.setAttribute("onclick", "typeLike = 2; likeDefiner = " + data.postId[i] + "; doLike();");
 			dislike.setAttribute("class", "btn-floating btn-medium waves-effect waves-light red darken-4");
 			dislike.setAttribute("id","buttondislike" + data.postId[i]);
+			dislike.setAttribute("style","margin-left:10px");
 			item9.appendChild(dislike);
 			dislikeIcon = document.createElement("i");
 			dislikeIcon.setAttribute("class","material-icons");
 			dislikeIcon.innerHTML = "thumb_down";
 			dislike.appendChild(dislikeIcon);
+			likeTxT = document.createElement("h6");
+			likeTxT.setAttribute("id","ltxt" + data.postId[i]);
+			likeTxT.innerHTML = "Likes: ";
+			item9.appendChild(likeTxT);
+			dislikeTxT = document.createElement("h6");
+			dislikeTxT.setAttribute("id","dltxt" + data.postId[i]);
+			dislikeTxT.innerHTML = "Dislikes: ";
+			item9.appendChild(dislikeTxT);
 			postsIdentity.push(data.postId[i]);
 		}
 		getComment();
@@ -222,6 +232,8 @@ function doLike(){
 	})
 	.then(function(data){
 		console.log(data);
+		alert(data.message);
+		window.location.reload();
 	})
 }
 
@@ -232,6 +244,10 @@ function getLikes(){
 		})
 		.then(function(data){
 			console.log(data);
+			for(let w = 0; w < data.postsId.length; w++){
+				$("ltxt" + data.postsId[w]).innerHTML = "Likes: " + data.postsLikes[w];
+				$("dltxt" + data.postsId[w]).innerHTML = "Dislikes: " + data.postsDislikes[w];
+			}
 		})
 }
 
