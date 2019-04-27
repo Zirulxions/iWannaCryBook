@@ -8,7 +8,7 @@
     <link href="Materialize/iconfont/material-icons.css" rel="stylesheet">
     <link href="CSS/Notification.css" type="text/css" rel="stylesheet">
 </head>
-<body onload="getAvatar(); getPublication(); getFriendList();" style="background-image: url(Resources/F1.PNG); background-attachment: fixed; background-repeat: no-repeat;">
+<body onload="getAvatar(); getPublication(); getFriendList(); activator();" style="background-image: url(Resources/F1.PNG); background-attachment: fixed; background-repeat: no-repeat;">
 	<nav class="teal darken-2 white-tex">
     	<div class="nav-wrapper">
     		<a class="brand-logo right">
@@ -207,12 +207,14 @@
 			</div>
 		</div>
 	</div>
-	<script src="Materialize/js/jquery.min.js"></script>
-    <script src="Materialize/js/materialize.min.js"></script>
-	<script type="text/javascript" src="Javascript/Logout.js"></script>
-	<script type="text/javascript" src="Javascript/Activator.js"></script>
-	<script type="text/javascript" src="Javascript/Publication.js"></script>
-	<script type="text/javascript" src="Javascript/Friends.js"></script>
+	<div id="scripts">
+		<script src="Materialize/js/jquery.min.js"></script>
+	    <script src="Materialize/js/materialize.min.js"></script>
+	    <script type="text/javascript" src="Javascript/Activator.js"></script>
+		<script type="text/javascript" src="Javascript/Logout.js"></script>
+		<script type="text/javascript" src="Javascript/Publication.js"></script>
+		<script type="text/javascript" src="Javascript/Friends.js"></script>
+	</div>
 </body>
 </html>
  
