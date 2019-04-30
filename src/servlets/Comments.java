@@ -72,55 +72,60 @@ public class Comments extends HttpServlet {
 			System.out.println("Array Spot (String) " + i + ": " + postsIdStr[i]);
 		}
 		*/
-		Integer[] postsIntArray = new Integer[postsIdStr.length];
-		int i = 0, x = 0;
-		for(String oldStr : postsIdStr) {
-			postsIntArray[x] = Integer.parseInt(oldStr);
-			x++;
-		}
-		/*
-		for(i = 0; i < postsIdStr.length; i++) {
-			System.out.println("Array Spot (Integer) " + i + ": " + postsIntArray[i]);
-		}
-		*/
-		try {
-			for(i = 0; i < postsIntArray.length; i++) {
-				stmt = connection.prepareStatement(prop.getValue("selectComments"));
-				stmt.setInt(1, postsIntArray[i]);
-				result = stmt.executeQuery();
-				while(result.next()) {
-					commentText.add(result.getString("comment_text"));
-					commentUrl.add(result.getString("comment_url"));
-					postsId.add(result.getInt("post_id"));
-					userId.add(result.getInt("user_id"));
-					userUsername.add(result.getString("user_username"));
-				}
+		if(postsIdStr[0] != "0") {
+			Integer[] postsIntArray = new Integer[postsIdStr.length];
+			int i = 0, x = 0;
+			for(String oldStr : postsIdStr) {
+				postsIntArray[x] = Integer.parseInt(oldStr);
+				x++;
 			}
-			System.out.println("Comment List: " + commentText.toString());
-			result.close();
-			stmt.close();
-			connection.close();
-			String[] commentArrText = new String[commentText.size()];
-			String[] commentArrUrl = new String[commentUrl.size()];
-			Integer[] postsArrId = new Integer[postsId.size()];
-			Integer[] userArrId = new Integer[userId.size()];
-			String[] userArrUsername = new String[userUsername.size()];
-			commentText.toArray(commentArrText);
-			commentUrl.toArray(commentArrUrl);
-			postsId.toArray(postsArrId);
-			userId.toArray(userArrId);
-			userUsername.toArray(userArrUsername);
-			resp.setCommentText(commentArrText);
-			resp.setCommentUrl(commentArrUrl);
-			resp.setPostId(postsArrId);
-			resp.setUserId(userArrId);
-			resp.setUserUsername(userArrUsername);
-			resp.setMessage("Successfully Loaded Comments.");
+			/*
+			for(i = 0; i < postsIdStr.length; i++) {
+				System.out.println("Array Spot (Integer) " + i + ": " + postsIntArray[i]);
+			}
+			*/
+			try {
+				for(i = 0; i < postsIntArray.length; i++) {
+					stmt = connection.prepareStatement(prop.getValue("selectComments"));
+					stmt.setInt(1, postsIntArray[i]);
+					result = stmt.executeQuery();
+					while(result.next()) {
+						commentText.add(result.getString("comment_text"));
+						commentUrl.add(result.getString("comment_url"));
+						postsId.add(result.getInt("post_id"));
+						userId.add(result.getInt("user_id"));
+						userUsername.add(result.getString("user_username"));
+					}
+				}
+				System.out.println("Comment List: " + commentText.toString());
+				result.close();
+				stmt.close();
+				connection.close();
+				String[] commentArrText = new String[commentText.size()];
+				String[] commentArrUrl = new String[commentUrl.size()];
+				Integer[] postsArrId = new Integer[postsId.size()];
+				Integer[] userArrId = new Integer[userId.size()];
+				String[] userArrUsername = new String[userUsername.size()];
+				commentText.toArray(commentArrText);
+				commentUrl.toArray(commentArrUrl);
+				postsId.toArray(postsArrId);
+				userId.toArray(userArrId);
+				userUsername.toArray(userArrUsername);
+				resp.setCommentText(commentArrText);
+				resp.setCommentUrl(commentArrUrl);
+				resp.setPostId(postsArrId);
+				resp.setUserId(userArrId);
+				resp.setUserUsername(userArrUsername);
+				resp.setMessage("Successfully Loaded Comments.");
+				resp.setStatus(200);
+			} catch(SQLException e) {
+				System.out.println(e.getMessage());
+				resp.setStatus(400);
+				resp.setMessage("Internal Server Error.");
+			}
+		} else {
+			resp.setMessage("Clean Comments Array.");
 			resp.setStatus(200);
-		} catch(SQLException e) {
-			System.out.println(e.getMessage());
-			resp.setStatus(400);
-			resp.setMessage("Internal Server Error.");
 		}
 		String res = objMapper.writeValueAsString(resp);
 		response.getWriter().print(res);

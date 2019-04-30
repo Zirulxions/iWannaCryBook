@@ -4,6 +4,15 @@ public class AdminResponse<T> {
 	private String message;
 	private Integer status;
 	private String htmlScript;
+	private T data;
+	
+	public Object getData() {
+		return data;
+	}
+	
+	public void setData(T data) {
+		this.data = data;
+	}
 	
 	public void setStatus(Integer status) {
 		this.status = status;

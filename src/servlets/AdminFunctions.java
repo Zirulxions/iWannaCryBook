@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import utility.AdminInnerClass;
 import utility.AdminResponse;
 
 @WebServlet("/AdminFunctions")
@@ -39,7 +41,27 @@ public class AdminFunctions extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		//doGet(request, response);
+	}
+	
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, JsonProcessingException, IOException{
+		HttpSession session = request.getSession();
+		ObjectMapper objMap = new ObjectMapper();
+		AdminResponse<AdminInnerClass> admresp = new AdminResponse<>();
+		Integer usid = (Integer) session.getAttribute("usid");
+		String tusr = (String) session.getAttribute("tusr");
+		String usr = (String) session.getAttribute("usr");
+		admresp.setHtmlScript(null);
+		if(tusr.contains("admin")) {
+			admresp.setMessage("Setted AdminResponse");
+			admresp.setStatus(200);
+			admresp.setData(null);
+		} else if (tusr.contains("user")) {
+			admresp.setMessage("No Admin Response, Just in case");
+			admresp.setStatus(200);
+			admresp.setData(null);
+		}
+		response.getWriter().print(objMap.writeValueAsString(admresp));
 	}
 
 }
