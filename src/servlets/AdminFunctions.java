@@ -21,7 +21,6 @@ import utility.AdminInnerClass;
 import utility.AdminResponse;
 import utility.DataBase;
 import utility.Encrypt;
-import utility.LogInInnerClass;
 import utility.PropertiesReader;
 
 @WebServlet("/AdminFunctions")
@@ -74,6 +73,7 @@ public class AdminFunctions extends HttpServlet {
 		ResultSet result = null;
 		String tusr = (String) session.getAttribute("tusr");
 		admresp.setHtmlScript(null);
+		boolean connCheck;
 		if(tusr.contains("admin")) {
 			System.out.println("+++++++++++++++++++++++++++++++ ADMIN MODE +++++++++++++++++++++++++++++++");
 			switch(admInnerClass.getOption()) {
@@ -92,12 +92,12 @@ public class AdminFunctions extends HttpServlet {
 						}
 						stmt.setString(2, admInnerClass.getBannedUser());
 						stmt.executeUpdate();
-						result.close();
 						System.out.println("User's: " + admInnerClass.getBannedUser() + " ban status changed to: " + !status);
 						admresp.setMessage("User's: " + admInnerClass.getBannedUser() + " ban status changed to: " + !status);
 					} else {
 						admresp.setMessage("User: " + admInnerClass.getBannedUser() + " doesn't exist!");
 					}
+					connCheck = true;
 					break;
 				case 2:
 					System.out.println("Changing user's " + admInnerClass.getUsernameEdit() + " Password to: " + admInnerClass.getPasswordEdit());
@@ -115,14 +115,19 @@ public class AdminFunctions extends HttpServlet {
 					} else {
 						admresp.setMessage("User: " + admInnerClass.getUsernameEdit() + " doesn't exist!");
 					}
+					connCheck = true;
 					break;
 				default:
 					System.out.println("Unknown Resource.");
 					admresp.setMessage("Forbiden. Unknown Resource/Option: " + admInnerClass.getOption());
+					connCheck = false;
 					break;
 			}
-			stmt.close();
-			connection.close();
+			if(connCheck) {
+				result.close();
+				stmt.close();
+				connection.close();
+			}
 			System.out.println("+++++++++++++++++++++++++++++++ FINISHED +++++++++++++++++++++++++++++++");
 			admresp.setData(admInnerClass);
 			admresp.setStatus(200);

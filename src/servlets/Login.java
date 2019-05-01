@@ -58,7 +58,6 @@ public class Login extends HttpServlet {
             stat.setString(2, encPassword.returnEncrypt());
             ResultSet result = stat.executeQuery();
             if(result.next()) {
-            	//user_username = innerClass.getUsername();
             	boolean status = result.getBoolean("user_enabled");
             	if(status) {
 	            	int type_id = result.getInt("type_user_id");

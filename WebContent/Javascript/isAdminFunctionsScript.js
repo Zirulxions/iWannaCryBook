@@ -111,6 +111,7 @@ function alertingAdminMode(){
 		ibtnButton.innerHTML = "send";
 		btnButton.appendChild(ibtnButton);
 	}
+	getAdminStats();
 }
 
 function updateConfig(){
@@ -120,12 +121,22 @@ function updateConfig(){
 		passwordEdit: $("pwChanged").value,
 		option: optionHelp
 	};
-	fetch("./AdminFunctions",{method:"put", body: JSON.stringify(body)})
+	fetch("./AdminFunctions",{method:"PUT", body: JSON.stringify(body)})
 	.then(function (response){
 		return response.json();
 	})
 	.then(function (data){
 		alert(data.message);
+	})
+}
+
+function getAdminStats(){
+	fetch("./AdminStats", {method: 'GET'})
+	.then(function(response){
+		return response.json();
+	})
+	.then(function(data){
+		console.log(data);
 	})
 }
 
