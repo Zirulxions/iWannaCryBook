@@ -95,17 +95,26 @@ public class AdminFunctions extends HttpServlet {
 						result.close();
 						System.out.println("User's: " + admInnerClass.getBannedUser() + " ban status changed to: " + !status);
 						admresp.setMessage("User's: " + admInnerClass.getBannedUser() + " ban status changed to: " + !status);
+					} else {
+						admresp.setMessage("User: " + admInnerClass.getBannedUser() + " doesn't exist!");
 					}
 					break;
 				case 2:
 					System.out.println("Changing user's " + admInnerClass.getUsernameEdit() + " Password to: " + admInnerClass.getPasswordEdit());
-					encPassword = new Encrypt(admInnerClass.getPasswordEdit());
-					stmt = connection.prepareStatement(prop.getValue("PasswordChange"));
-					stmt.setString(1, encPassword.returnEncrypt());
-					stmt.setString(2, admInnerClass.getUsernameEdit());
-					stmt.executeUpdate();
-					System.out.println("User's " + admInnerClass.getUsernameEdit() + " Password Updated. Encrypt: " + encPassword.returnEncrypt());
-					admresp.setMessage("User's " + admInnerClass.getUsernameEdit() + " Password Updated. Encrypt: " + encPassword.returnEncrypt());
+					stmt = connection.prepareStatement(prop.getValue("selectUsersByUsername"));
+					stmt.setString(1, admInnerClass.getUsernameEdit());
+					result = stmt.executeQuery();
+					if(result.next()) {
+						encPassword = new Encrypt(admInnerClass.getPasswordEdit());
+						stmt = connection.prepareStatement(prop.getValue("PasswordChange"));
+						stmt.setString(1, encPassword.returnEncrypt());
+						stmt.setString(2, admInnerClass.getUsernameEdit());
+						stmt.executeUpdate();
+						System.out.println("User's " + admInnerClass.getUsernameEdit() + " Password Updated. Encrypt: " + encPassword.returnEncrypt());
+						admresp.setMessage("User's " + admInnerClass.getUsernameEdit() + " Password Updated. Encrypt: " + encPassword.returnEncrypt());
+					} else {
+						admresp.setMessage("User: " + admInnerClass.getUsernameEdit() + " doesn't exist!");
+					}
 					break;
 				default:
 					System.out.println("Unknown Resource.");

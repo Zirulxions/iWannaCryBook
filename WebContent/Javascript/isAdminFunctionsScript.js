@@ -125,7 +125,7 @@ function updateConfig(){
 		return response.json();
 	})
 	.then(function (data){
-		console.log(data);
+		alert(data.message);
 	})
 }
 
