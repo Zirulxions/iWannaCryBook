@@ -201,18 +201,22 @@ var iComment1, iComment2, iComment3;
 
 function getComment(){
 	console.log(postsIdentity + " Has Length: " + postsIdentity.length);
-	fetch("./Comments?arrid=" + postsIdentity, {method: 'GET', header: {'Content-Type':'application/x-www-form-urlencoded'}})
-		.then(function(response){
-			return response.json();
-		})
-		.then(function(data){
-			console.log(data);
-			for(var x = 0; x < data.postId.length; x++){
-				iComment1 = document.createElement("h6");
-				iComment1.innerHTML = data.userUsername[x] + ": " + data.commentText[x];
-				$("content" + data.postId[x]).appendChild(iComment1);
-			}
-		})	
+	if(postsIdentity.length > 0){
+		fetch("./Comments?arrid=" + postsIdentity, {method: 'GET', header: {'Content-Type':'application/x-www-form-urlencoded'}})
+			.then(function(response){
+				return response.json();
+			})
+			.then(function(data){
+				console.log(data);
+				for(var x = 0; x < data.postId.length; x++){
+					iComment1 = document.createElement("h6");
+					iComment1.innerHTML = data.userUsername[x] + ": " + data.commentText[x];
+					$("content" + data.postId[x]).appendChild(iComment1);
+				}
+			})
+	} else {
+		return;
+	}
 }
 
 function doLike(){
@@ -238,17 +242,21 @@ function doLike(){
 }
 
 function getLikes(){
-	fetch("./Likes?arrid=" + postsIdentity, {method: 'GET', header: {'Content-Type':'application/x-www-form-urlencoded'}})
-		.then(function(response){
-			return response.json();
-		})
-		.then(function(data){
-			console.log(data);
-			for(let w = 0; w < data.postsId.length; w++){
-				$("ltxt" + data.postsId[w]).innerHTML = "Likes: " + data.postsLikes[w];
-				$("dltxt" + data.postsId[w]).innerHTML = "Dislikes: " + data.postsDislikes[w];
-			}
-		})
+	if(postsIdentity.length > 0){
+		fetch("./Likes?arrid=" + postsIdentity, {method: 'GET', header: {'Content-Type':'application/x-www-form-urlencoded'}})
+			.then(function(response){
+				return response.json();
+			})
+			.then(function(data){
+				console.log(data);
+				for(let w = 0; w < data.postsId.length; w++){
+					$("ltxt" + data.postsId[w]).innerHTML = "Likes: " + data.postsLikes[w];
+					$("dltxt" + data.postsId[w]).innerHTML = "Dislikes: " + data.postsDislikes[w];
+				}
+			})
+	} else {
+		return;
+	}
 }
 
 
