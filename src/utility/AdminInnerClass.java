@@ -2,8 +2,17 @@ package utility;
 
 public class AdminInnerClass {
 	private String usernameEdit;
-	private boolean banUser;
+	private String bannedUser;
 	private String passwordEdit;
+	private Integer option;
+	
+	public void setOption(Integer option) {
+		this.option = option;
+	}
+	
+	public Integer getOption() {
+		return this.option;
+	}
 	
 	public void setUsernameEdit(String usernameEdit) {
 		this.usernameEdit = usernameEdit;
@@ -13,12 +22,12 @@ public class AdminInnerClass {
 		return this.usernameEdit;
 	}
 	
-	public void setBannedUser(boolean banUser) {
-		this.banUser = banUser;
+	public void setBannedUser(String bannedUser) {
+		this.bannedUser = bannedUser;
 	}
 	
-	public boolean getBannedUser() {
-		return this.banUser;
+	public String getBannedUser() {
+		return this.bannedUser;
 	}
 	
 	public void setPasswordEdit(String passwordEdit) {

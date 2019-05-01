@@ -5,6 +5,7 @@ function $(id) {
 var ulNav, liNav, aNav, iNav;
 var rowDiv, cols12Div, cardDiv, cardStackDiv, cardContentDiv, inputFieldDiv, inputFieldDiv2, cardActionDiv;
 var headH3, inputF1, label1, inputF2, label2, inputF3, label3, inputF4, label4, btnButton, ibtnButton;
+var optionHelp = 0;
 
 function alertingAdminMode(){
 	alert("ADMIN MODE ON");
@@ -96,9 +97,11 @@ function alertingAdminMode(){
 		btnButton.setAttribute("class","btn waves-effect waves light");
 		btnButton.setAttribute("type","submit");
 		if(count == 1){
+			btnButton.setAttribute("onclick","optionHelp = 1; updateConfig();")
 			btnButton.setAttribute("id","updateBanStatus");
 			btnButton.innerHTML = "Ban/Unban User";
 		} else if(count == 2){
+			btnButton.setAttribute("onclick","optionHelp = 2; updateConfig();")
 			btnButton.setAttribute("id","updateUsPassword");
 			btnButton.innerHTML = "Change User's Password";
 		}
@@ -108,12 +111,20 @@ function alertingAdminMode(){
 		ibtnButton.innerHTML = "send";
 		btnButton.appendChild(ibtnButton);
 	}
-	
-	fetch("./AdminFunctions", {method:'PUT'})
-	.then(function(response){
+}
+
+function updateConfig(){
+	let body = {
+		bannedUser: $("idToBanUnban").value,
+		usernameEdit: $("idUserPwChange").value,
+		passwordEdit: $("pwChanged").value,
+		option: optionHelp
+	};
+	fetch("./AdminFunctions",{method:"put", body: JSON.stringify(body)})
+	.then(function (response){
 		return response.json();
 	})
-	.then(function(data){
+	.then(function (data){
 		console.log(data);
 	})
 }
