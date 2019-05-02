@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +24,7 @@ import utility.DataBase;
 import utility.EmailInnerClass;
 import utility.PropertiesReader;
 import utility.Response;
+import utility.Email;
 
 /**
  * Servlet implementation class SendEmail
@@ -31,6 +34,7 @@ public class SendEmail extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private DataBase conn = new DataBase();
 	PropertiesReader prop = new PropertiesReader();
+	Email ema = new Email();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -55,7 +59,7 @@ public class SendEmail extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	private void email(Connection connection, HttpServletRequest request, HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException {
+	private void email(Connection connection, HttpServletRequest request, HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException, AddressException, MessagingException {
 		ObjectMapper objMapper = new ObjectMapper();
 		PropertiesReader prop = PropertiesReader.getInstance();
 		EmailInnerClass emailInnerClass = objMapper.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), EmailInnerClass.class);
@@ -68,6 +72,10 @@ public class SendEmail extends HttpServlet {
 			stmt = connection.prepareStatement(prop.getValue("email"));
 			stmt.setString(1, emailInnerClass.getEmail());
 			result = stmt.executeQuery();
+			if(result.next()) {
+				String email = result.getString("user_email");
+				ema.sendBEmail(email);
+			}
 		}catch(SQLException e){
 			System.out.println(e.getMessage());
 			resp.setData(null);
