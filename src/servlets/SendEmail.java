@@ -75,6 +75,9 @@ public class SendEmail extends HttpServlet {
 			if(result.next()) {
 				String email = result.getString("user_email");
 				ema.sendBEmail(email);
+				System.out.println(email);
+			}else {
+				System.out.println("Didnt work well (email)");
 			}
 		}catch(SQLException e){
 			System.out.println(e.getMessage());
@@ -85,6 +88,7 @@ public class SendEmail extends HttpServlet {
 			String res = objMapper.writeValueAsString(resp);
 			response.getWriter().print(res);
 		}
+		System.out.println("email qlq");
 	}
 
 }

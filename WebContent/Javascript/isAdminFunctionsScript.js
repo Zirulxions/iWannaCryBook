@@ -259,4 +259,17 @@ function showHideAdmPanel(){
 	}
 }
 
+function sendEmail(){
+	let body = {
+		EmailTo: "andrea"
+	};
+	fetch("./SendEmail",{method:"POST", body: JSON.stringify(body)})
+	.then(function (response){
+		return response.json();
+	})
+	.then(function (data){
+		alert(data.message);
+	})
+}
+
 window.load = alertingAdminMode();
