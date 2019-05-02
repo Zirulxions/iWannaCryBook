@@ -130,6 +130,8 @@ function updateConfig(){
 	})
 }
 
+var rDiv, cs12Div, cardPanelDiv, table, tableHead, tableBody, tableRow, tableH, tableD1, TableD2;
+
 function getAdminStats(){
 	fetch("./AdminStats", {method: 'GET'})
 	.then(function(response){
@@ -137,6 +139,64 @@ function getAdminStats(){
 	})
 	.then(function(data){
 		console.log(data);
+		rDiv = document.createElement("div");
+		rDiv.setAttribute("class","row");
+		$("admFuncPanel").appendChild(rDiv);
+		cs12Div = document.createElement("div");
+		cs12Div.setAttribute("class","col s12 m12");
+		rDiv.appendChild(cs12Div);
+		cardPanelDiv = document.createElement("div");
+		cardPanelDiv.setAttribute("class","card-panel");
+		cs12Div.appendChild(cardPanelDiv);
+		table = document.createElement("table");
+		table.setAttribute("class","centered highlight responsive-table")
+		cardPanelDiv.appendChild(table);
+		tableHead = document.createElement("thead");
+		table.appendChild(tableHead);
+		tableRow = document.createElement("tr");
+		tableHead.appendChild(tableRow);
+		tableH = document.createElement("th");
+		tableH.setAttribute("style","text-align: center;");
+		tableH.innerHTML = "Posts/Users";
+		tableHead.appendChild(tableH);
+		tableH = document.createElement("th");
+		tableH.setAttribute("style","text-align: center;");
+		tableH.innerHTML = "Quanity";
+		tableHead.appendChild(tableH);
+		tableBody = document.createElement("tbody");
+		table.appendChild(tableBody);
+		for(var i = 1; i <= 5; i++){
+			tableRow = document.createElement("tr");
+			tableBody.appendChild(tableRow);
+			tableD1 = document.createElement("td");
+			tableD2 = document.createElement("td");
+			switch(i){
+			case 1:
+				tableD1.innerHTML = "Posts By Text";
+				tableD2.innerHTML = data.postsByText;
+				break;
+			case 2:
+				tableD1.innerHTML = "Posts By Image";
+				tableD2.innerHTML = data.postsByImage;
+				break;
+			case 3:
+				tableD1.innerHTML = "Posts By Video";
+				tableD2.innerHTML = data.postsByVideo;
+				break;
+			case 4:
+				tableD1.innerHTML = "Male Users";
+				tableD2.innerHTML = data.maleUsers;
+				break;
+			case 5:
+				tableD1.innerHTML = "Female Users";
+				tableD2.innerHTML = data.femaleUsers;
+				break;
+			default:
+				break;
+			}
+			tableRow.appendChild(tableD1);
+			tableRow.appendChild(tableD2);
+		}
 	})
 }
 
