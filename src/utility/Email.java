@@ -3,6 +3,8 @@ package utility;
 import java.util.Properties;
 
 import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.MimeMessage;
 
 public class Email {
 	
