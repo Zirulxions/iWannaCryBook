@@ -92,10 +92,15 @@ public class AdminStats extends HttpServlet {
 		response.getWriter().print(objMapper.writeValueAsString(admStaResp));
 	}
 	
-	/*
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		searchByContent(conn.getConnection(), request, response);
 	}
-	*/
 
+	private void searchByContent(Connection connection, HttpServletRequest request, HttpServletResponse response) {
+		ObjectMapper objMapper = new ObjectMapper();
+		PropertiesReader prop = PropertiesReader.getInstance();
+		PreparedStatement stmt = null;
+		ResultSet result = null;
+		
+	}
 }
