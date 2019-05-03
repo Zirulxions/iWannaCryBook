@@ -5,12 +5,30 @@ import java.util.ArrayList;
 public class PostAndCommentResponse <T>{
 	private Integer status;
 	private String message;
+	private ArrayList<String> pUsernameAvatar = new ArrayList<String>();
 	private ArrayList<String> postUsername = new ArrayList<String>();
 	private ArrayList<Integer> postId = new ArrayList<Integer>();
 	private ArrayList<String> postContent = new ArrayList<String>();
+	private ArrayList<String> cUsernameAvatar = new ArrayList<String>();
 	private ArrayList<String> commentUsername = new ArrayList<String>();
 	private ArrayList<Integer> commentId = new ArrayList<Integer>();
 	private ArrayList<String> commentContent = new ArrayList<String>();
+	
+	public void setPosttAvatar(ArrayList<String> pUsernameAvatar) {
+		this.pUsernameAvatar = pUsernameAvatar;
+	}
+	
+	public ArrayList<String> getPostAvatar(){
+		return pUsernameAvatar;
+	}
+	
+	public void setCommentAvatar(ArrayList<String> cUsernameAvatar) {
+		this.cUsernameAvatar = cUsernameAvatar;
+	}
+	
+	public ArrayList<String> getCommentAvatar(){
+		return cUsernameAvatar;
+	}
 	
 	public void setCommentContent(ArrayList<String> commentContent) {
 		this.commentContent = commentContent;
@@ -56,7 +74,7 @@ public class PostAndCommentResponse <T>{
 	    this.postUsername = postUsername;
 	}
 	
-	public ArrayList<String> getStringList() {
+	public ArrayList<String> getPostUsername() {
 	    return postUsername;
 	}
 	

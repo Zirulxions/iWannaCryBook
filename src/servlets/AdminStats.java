@@ -114,6 +114,7 @@ public class AdminStats extends HttpServlet {
 		String dataSearch = request.getParameter("dataSearch");
 		System.out.println("++++++++++++++++++++++++++ ADMIN SEARCH ++++++++++++++++++++++++++");
 		
+		ArrayList<String> pUsernameAvatar = new ArrayList<String>();
 		ArrayList<String> postUsername = new ArrayList<String>();
 		ArrayList<Integer> postId = new ArrayList<Integer>();
 		ArrayList<String> postContent = new ArrayList<String>();
@@ -124,13 +125,16 @@ public class AdminStats extends HttpServlet {
 			postUsername.add(result.getString("user_username"));
 			postId.add(result.getInt("post_id"));
 			postContent.add(result.getString("post_text"));
+			pUsernameAvatar.add(result.getString("user_avatar"));
 		}
 		result = null;
 		stmt = null;
 		resp.setPostContent(postContent);
 		resp.setPostId(postId);
 		resp.setPostUsername(postUsername);
+		resp.setPosttAvatar(pUsernameAvatar);
 		
+		ArrayList<String> cUsernameAvatar = new ArrayList<String>();
 		ArrayList<String> commentUsername = new ArrayList<String>();
 		ArrayList<Integer> commentId = new ArrayList<Integer>();
 		ArrayList<String> commentContent = new ArrayList<String>();
@@ -141,6 +145,7 @@ public class AdminStats extends HttpServlet {
 			commentUsername.add(result.getString("user_username"));
 			commentId.add(result.getInt("comment_id"));
 			commentContent.add(result.getString("comment_text"));
+			cUsernameAvatar.add(result.getString("user_avatar"));
 		}
 		result.close();
 		stmt.close();
@@ -148,6 +153,7 @@ public class AdminStats extends HttpServlet {
 		resp.setCommentContent(commentContent);
 		resp.setCommentId(commentId);
 		resp.setCommentUsername(commentUsername);
+		resp.setCommentAvatar(cUsernameAvatar);
 		
 		resp.setMessage("Search Finished. You were looking for: " + dataSearch);
 		resp.setStatus(200);

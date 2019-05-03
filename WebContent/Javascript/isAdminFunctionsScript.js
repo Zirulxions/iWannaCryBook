@@ -117,7 +117,7 @@ function alertingAdminMode(){
 function placeSearchBar(){
 	rowDiv = document.createElement("div");
 	rowDiv.setAttribute("class","row");
-	$("admFuncPanel").appendChild(rowDiv)
+	$("admFuncPanel").appendChild(rowDiv);
 	cols12Div = document.createElement("div");
 	cols12Div.setAttribute("class","col s12 m12");
 	rowDiv.appendChild(cols12Div);
@@ -250,6 +250,9 @@ function getAdminStats(){
 	})
 }
 
+var ul, li, img, span, p, a, mi;
+var commentIden, postIden;
+
 function doSearch(){
 	var formData = new FormData();
 	formData.append("dataSearch", $("searchInput").value);
@@ -265,7 +268,84 @@ function doSearch(){
 	})
 	.then(function (data){
 		console.log(data);
+		rowDiv = document.createElement("div");
+		rowDiv.setAttribute("class","row");
+		$("admFuncPanel").appendChild(rowDiv);
+		cs12Div = document.createElement("div");
+		cs12Div.setAttribute("class","col s12");
+		rDiv.appendChild(cs12Div);
+		headH3 = document.createElement("h3");
+		headH3.setAttribute("class","header white-text");
+		headH3.innerHTML = "Comment / Post List";
+		cs12Div.appendChild(headH3);
+		ul = document.createElement("ul");
+		ul.setAttribute("class","collection");
+		cs12Div.appendChild(ul);
+		for(let i = 0; i < data.commentContent.length; i++){
+			li = document.createElement("li");
+			li.setAttribute("class","collection-item avatar");
+			ul.appendChild(li);
+			img = document.createElement("img");
+			if(data.commentAvatar[i] == "unknown"){
+				img.setAttribute("src","Resources/huevito.jpg");
+			} else {
+				img.setAttribute("src", data.commentAvatar[i]);
+			}
+			img.setAttribute("alt","");
+			img.setAttribute("class","circle");
+			li.appendChild(img);
+			span = document.createElement("span");
+			span.setAttribute("class","title");
+			span.innerHTML = "Comment Owner: " + data.commentUsername[i];
+			li.appendChild(span);
+			p = document.createElement("p");
+			p.innerHTML = "Comment Content: " + data.commentContent[i];
+			li.appendChild(p);
+			a = document.createElement("a");
+			a.setAttribute("href","#!");
+			a.setAttribute("onclick","commentIden = " + data.commentId[i] + "; deletePostComment()");
+			a.setAttribute("class","secondary-content");
+			li.appendChild(a);
+			mi = document.createElement("i");
+			mi.setAttribute("class","material-icons");
+			mi.innerHTML = "delete_forever";
+			a.appendChild(mi);
+		}
+		for(let i = 0; i < data.postContent.length; i++){
+			li = document.createElement("li");
+			li.setAttribute("class","collection-item avatar");
+			ul.appendChild(li);
+			img = document.createElement("img");
+			if(data.postAvatar[i] == "unknown"){
+				img.setAttribute("src","Resources/huevito.jpg");
+			} else {
+				img.setAttribute("src", data.postAvatar[i]);
+			}
+			img.setAttribute("alt","");
+			img.setAttribute("class","circle");
+			li.appendChild(img);
+			span = document.createElement("span");
+			span.setAttribute("class","title");
+			span.innerHTML = "Post Owner: " + data.postUsername[i];
+			li.appendChild(span);
+			p = document.createElement("p");
+			p.innerHTML = "Post Content: " + data.postContent[i];
+			li.appendChild(p);
+			a = document.createElement("a");
+			a.setAttribute("href","#!");
+			a.setAttribute("onclick","postIden = " + data.postId[i] + "; deletePostComment()");
+			a.setAttribute("class","secondary-content");
+			li.appendChild(a);
+			mi = document.createElement("i");
+			mi.setAttribute("class","material-icons");
+			mi.innerHTML = "delete_forever";
+			a.appendChild(mi);
+		}
 	})
+}
+
+function deletePostComment(){
+	alert("Deleting ");
 }
 
 function showHideAdmPanel(){
