@@ -251,7 +251,7 @@ function getAdminStats(){
 }
 
 var ul, li, img, span, p, a, mi;
-var commentIden, postIden;
+var commentIden, postIden, switchOpt;
 
 function doSearch(){
 	var formData = new FormData();
@@ -303,7 +303,7 @@ function doSearch(){
 			li.appendChild(p);
 			a = document.createElement("a");
 			a.setAttribute("href","#!");
-			a.setAttribute("onclick","commentIden = " + data.commentId[i] + "; deletePostComment()");
+			a.setAttribute("onclick","commentIden = " + data.commentId[i] + "; switchOpt = 1; deleteByContent()");
 			a.setAttribute("class","secondary-content");
 			li.appendChild(a);
 			mi = document.createElement("i");
@@ -333,13 +333,36 @@ function doSearch(){
 			li.appendChild(p);
 			a = document.createElement("a");
 			a.setAttribute("href","#!");
-			a.setAttribute("onclick","postIden = " + data.postId[i] + "; deletePostComment()");
+			a.setAttribute("onclick","postIden = " + data.postId[i] + "; switchOpt = 2; deleteByContent()");
 			a.setAttribute("class","secondary-content");
 			li.appendChild(a);
 			mi = document.createElement("i");
 			mi.setAttribute("class","material-icons");
 			mi.innerHTML = "delete_forever";
 			a.appendChild(mi);
+		}
+	})
+}
+
+//remember: switchOpt, 1 = Comment, 2 = Post
+function deleteByContent(){
+	let body ={
+		option: switchOpt,
+		post: postIden,
+		comment: commentIden
+	};
+	let config = {
+		method: 'DELETE',
+		body: JSON.stringify(body)
+	}
+	fetch("./AdminStats", config)
+	.then(function(response){
+		return response.json();
+	})
+	.then(function (data){
+		alert(data.message);
+		if(data.status == 200){
+			window.location.reload();
 		}
 	})
 }

@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -14,13 +15,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import utility.AdminStatsResponse;
 import utility.DataBase;
+import utility.DeletedPostComment;
 import utility.PostAndCommentResponse;
 import utility.PropertiesReader;
+import utility.Response;
 
 @WebServlet("/AdminStats")
 @MultipartConfig
@@ -160,6 +165,59 @@ public class AdminStats extends HttpServlet {
 		
 		System.out.println("++++++++++++++++++++++++++ FINISH ++++++++++++++++++++++++++");
 		
+		response.getWriter().print(objMapper.writeValueAsString(resp));
+	}
+	
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException {
+		try {
+			execDelete(conn.getConnection(), request, response);
+		} catch (SQLException e) {
+			e.getMessage();
+		}
+	}
+
+	private void execDelete(Connection connection, HttpServletRequest request, HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException, SQLException {
+		ObjectMapper objMapper = new ObjectMapper();
+		PropertiesReader prop = PropertiesReader.getInstance();
+		PreparedStatement stmt = null;
+		ResultSet result = null;
+		DeletedPostComment delInnerClass = objMapper.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), DeletedPostComment.class);
+		Response<DeletedPostComment> resp = new Response<>();
+		System.out.println("++++++++++++++++++++++++++ DELETE AS ADMIN ++++++++++++++++++++++++++");
+		//System.out.println("Value: " + delInnerClass.getOption());
+		resp.setData(null);
+		resp.setRedirect(null);
+		switch(delInnerClass.getOption()) {
+		case 1:
+			System.out.println("DELETE COMMENT");
+			stmt = connection.prepareStatement(prop.getValue("deleteComment"));
+			stmt.setInt(1, delInnerClass.getComment());
+			stmt.executeUpdate();
+			stmt.close();
+			connection.close();
+			resp.setMessage("Comment Deleted.!");
+			resp.setStatus(200);
+			break;
+		case 2:
+			System.out.println("DELETE POST");
+			stmt = connection.prepareStatement(prop.getValue("deleteLikes"));
+			stmt.setInt(1, delInnerClass.getPost());
+			stmt.executeUpdate();
+			stmt = connection.prepareStatement(prop.getValue("deleteComments"));
+			stmt.setInt(1, delInnerClass.getPost());
+			stmt.executeUpdate();
+			stmt = connection.prepareStatement(prop.getValue("deletePost"));
+			stmt.setInt(1, delInnerClass.getPost());
+			stmt.executeUpdate();
+			stmt.close();
+			connection.close();
+			resp.setMessage("Post Deleted..!");
+			resp.setStatus(200);
+			break;
+		default:
+			break;
+		}
+		System.out.println("++++++++++++++++++++++++++ FINISH ++++++++++++++++++++++++++");
 		response.getWriter().print(objMapper.writeValueAsString(resp));
 	}
 }
