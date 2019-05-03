@@ -153,7 +153,7 @@ function placeSearchBar(){
 	btnButton = document.createElement("button");
 	btnButton.setAttribute("class","btn waves-effect waves light");
 	btnButton.setAttribute("type","submit");
-	btnButton.setAttribute("onclick","");
+	btnButton.setAttribute("onclick","doSearch()");
 	btnButton.setAttribute("id","searchNowButton");
 	btnButton.innerHTML = "Search Now";
 	cardActionDiv.appendChild(btnButton);
@@ -247,6 +247,24 @@ function getAdminStats(){
 			tableRow.appendChild(tableD1);
 			tableRow.appendChild(tableD2);
 		}
+	})
+}
+
+function doSearch(){
+	var formData = new FormData();
+	formData.append("dataSearch", $("searchInput").value);
+	let config = {
+			method: 'POST',
+			body: formData,
+			header: {'Content-Type':'multipart/form-data'},
+		}
+	console.log($("searchInput").value);
+	fetch("./AdminStats", config)
+	.then(function (response){
+		return response.json();
+	})
+	.then(function (data){
+		console.log(data);
 	})
 }
 
