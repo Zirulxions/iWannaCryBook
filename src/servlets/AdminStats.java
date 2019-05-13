@@ -180,7 +180,6 @@ public class AdminStats extends HttpServlet {
 		ObjectMapper objMapper = new ObjectMapper();
 		PropertiesReader prop = PropertiesReader.getInstance();
 		PreparedStatement stmt = null;
-		ResultSet result = null;
 		DeletedPostComment delInnerClass = objMapper.readValue(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())), DeletedPostComment.class);
 		Response<DeletedPostComment> resp = new Response<>();
 		System.out.println("++++++++++++++++++++++++++ DELETE AS ADMIN ++++++++++++++++++++++++++");

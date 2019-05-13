@@ -55,5 +55,3 @@ local.properties
 .scala_dependencies
 .worksheet
 /target/
-
-*.properties
